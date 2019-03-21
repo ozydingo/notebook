@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <style>
+    /*  This gets overwritten; css only supports one value per key*/
+    .animate2 {
+      animation-name: makeRed;
+      animation-duration: 3s;
+    }
+    @keyframes makeRed {
+      from {color: #000;}
+      to {color: #f00;}
+    }
+    /* This one overwrites the above */
+    .animate {
+      position: relative;
+      animation-name: moveRight, moveDown;
+      animation-duration: 5s, 2s;
+    }
+    @keyframes moveRight {
+      from {left: 0px;}
+      to {left: 200px;}
+    }
+    @keyframes moveDown {
+      from {top: 0px;}
+      to {top: 200px;}
+    }
+  </style>
+</head>
+<body>
+  <p class="animate2 animate">Hello</p>
+</body>
+</html>
