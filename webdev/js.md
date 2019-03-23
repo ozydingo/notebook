@@ -1,0 +1,154 @@
+## Promises
+
+```js
+function getOrCreateThing() {
+  return new Promise(function(resolve, reject) {
+    getThingAsync(function(err, data) {
+      if (data) return resolve(data);
+      createThingAsync(settings, function(err, data) {
+        if (errO0 return reject(err));
+        getThingAsync(function(err, data) {
+          return err ? reject(err) : resolve(data);
+        })
+      })
+    })
+  })
+}
+```
+
+Promise states:
+
+* Fulfilled
+* Rejected
+* Pending
+* Settled -- Fulfilled or Rejected
+
+Basic usage:
+
+```js
+var promise = new Promise(function(resolve, reject) {
+  // do a thing, possibly async, then…
+
+  if (/* everything turned out fine */) {
+    resolve("Stuff worked!");
+  }
+  else {
+    reject(Error("It broke"));
+  }
+});
+
+promise.then(function(result) {
+  console.log(result); // "Stuff worked!"
+}, function(err) {
+  console.log(err); // Error: "It broke"
+});
+```
+
+The `reject` and `resolve` functions are the keys to transitioning the promise into the next state / callback.
+
+Chaining methods that take a single value (i.e., `result`) and transform it can be shortcutted, because the syntax works out:
+
+```js
+promise.then(JSON.parse).then(function(parsed_result){...})
+```
+
+If the return value of `then` is a value, the function passed to `then` is called with it. If the return value is promise-like, the function passed to `then` will wait on that returns value to "settle" and be called with the result once it does.
+
+```js
+promise.then(function(x){ return new Promise(...); }).then(function(settledValue){...})
+```
+
+You can handle errors uusing
+
+```js
+promise.then(successFn, errorFn)
+```
+
+or
+
+```js
+promise.then(successFn).catch(errorFn)
+```
+
+These are almost the same; the `errorFn` arg in `then` is optional, and `catch(errorFn)` is just an alias for `then(undefined, errorFn)`. Note, however, that in the latter case the catch will be called if the success function fails, while with `then(func1, func2)`, only one of `func1` and `func2` will be called.
+
+Simple wait-for-something loop
+
+```js
+let x = {}
+
+wait = function(x) {
+  return new Promise((resolve, reject) => {
+    let check = function(x) {
+      if ( x.value ) {
+        console.log("Resolving value: ", x);
+        resolve(x.value);
+      }
+      else {
+        console.log("Still waiting: ", x);
+        setTimeout(() => check(x), 1000);
+      }      
+    }
+    check(x);
+  });
+}
+```
+
+Let's make a waitFor function:
+
+```js
+waitFor = function(isReady, getValue) {
+  return new Promise((resolve, reject) => {
+    let check = function() {
+      if (isReady()) {
+        resolve(getValue());
+      } else {
+        setTimeout(check, 1000);
+      }
+    }
+    check();
+  })
+}
+
+let x = {}
+waitFor(() => x.ready, () => x.value ).then((val) => console.log("Got ", val));
+x.value = 42;
+setTimeout(() => x.ready = true, 2000);
+```
+
+Cool.
+
+## Async / Await
+
+`async f() {...}` => f is guaranteed to return a promise. Javascript will make sure of it.
+
+```js
+(async function f(){ return 1; })()
+//=> Promise {<resolved>: 1}
+```
+
+`await p` can only be used inside an `async` function, and causes Javascript to wait until the Promise `p` settles.
+
+```js
+waitFor = function(isReady, getValue) {
+  return new Promise((resolve, reject) => {
+    let check = function() {
+      if (isReady()) {
+        resolve(getValue());
+      } else {
+        setTimeout(check, 1000);
+      }
+    }
+    check();
+  })
+}
+
+let x = {}
+(async () => {
+  let value = await waitFor(() => x.ready, () => x.value )
+  console.log("Got ", value);
+})()
+
+x.value = 42;
+setTimeout(() => x.ready = true, 2000);
+```
