@@ -1,3 +1,5 @@
+# GraphQL
+
 ## In Short
 Define typed fields for queries, each field has a corresponding function definition. Fields can be plain data types or other custom model types, it's all the same to GraphQL.
 
@@ -69,3 +71,123 @@ Four args to resolvers:
 ## Authx
 
 GraphQL is aware of authentication -- often by populating `current_user` in `context`. However, leave authorization to the business logic, do not handle it in GraphQL types. Often this means passing a `user` object from the resolver function into some internal class.
+
+E.g. in Ruby, instead of putting any controller `can_access?` checks, use a `@current_user.posts` or `Post.for_user(user)` method. This also allows testing of this method to be decoupled from the controllers and queries.
+
+# GraphQL-ruby
+
+## Schema
+
+class MySchema < GraphQL::Schema
+  # Required:
+  query Types::Query
+  # Optional:
+  mutation Types::Mutation
+  subscription Types::Subscription
+  introspection CustomIntrospectionClass
+end
+
+## Objects
+
+The following GraphQL:
+
+```
+type User {
+  email: String
+  handle: String!
+  friends: [User!]!
+}
+```
+
+Is written in Ruby as:
+
+```
+class User < GraphQL::Schema::Object
+  field :email, String, null: true
+  field :handle, String, null: false
+  field :friends, [User], null: false
+  field :scores, [Integer, null: true], null: true
+end
+```
+
+A `GraphQL::Schema::Object` subclass defines a basic object with fields. Typically, you'll define your own base class first: `class Types::BaseObject < GraphQL::Schema::Object`
+
+Fields are resolved by calling a method of that name, or, in the case of a Hash, fetching the value with that key. This can be overridden using the `:method` or `:hash_key` keyword arg to `field`. Use `method: :itself` to pass self.
+
+Define arguments, descriptions, and deprecation_reasons in a block passed to the `field` method.
+
+Use a `limit` arg for any list return values!
+
+An object can implement a defined interface using `implements INTERFACE_CLASS`. Interfaces are defined in modules that `include Types::BaseInterface`.
+
+## Input Objects
+
+Example input object
+
+```
+# Types::BaseInputObject is defined by you
+class Types::PostAttributes < Types::BaseInputObject
+  description "Attributes for creating or updating a blog post"
+  argument :title, String, "Header for the post", required: true
+  argument :full_text, String, "Full body of the post", required: true
+  argument :categories, [Types::PostCategory], required: false
+end
+```
+
+## Scalars, Enums, Union
+
+Built-in scalar types:
+
+* String
+* Int
+* Float
+* Boolean
+* ID
+* ISO8601DateTime
+* JSON
+
+Define custom scalars by inheriting from some base class `Types::BaseScalar < GraphQL::Schema::Scalar` and defining two methods:
+
+* self.coerce_input
+* self.coerce_result
+
+Example enum:
+
+```
+# Types::BaseEnum is defined by you
+class Types::MediaCategory < Types::BaseEnum
+  value "AUDIO", "An audio file, such as music or spoken word"
+  value "IMAGE", "A still image, such as a photo or graphic"
+  value "TEXT", "Written words"
+  value "VIDEO", "Motion picture, may have audio"
+end
+```
+
+Union classes inherit from `GraphQL::Schema::Union` and specify `possible_types(*type_classes)`.
+
+## Authx
+
+Handle authorization in the business layer. However, some authorization can be handled by GraphQlRuby if appropriate:
+
+* Object authorization: `self.authorized?(object, context)`
+* Visibility: `visible?`
+
+
+## Mutations
+
+`class Types::Mutation < Types::BaseObject`, attached to schema: `mutation(Types::Mutation)`. This is the only place this type is used. It defines the entry point for mutations. Specific mutations are declared as fields of this Type class. These fields are declared using mutation classes, e.g. `class Mutations::BaseMutation < GraphQL::Schema::Mutation`, `class Mutations::CreateComment < Mutations::BaseMutation`:
+
+* `argument` describes an input param
+* `field` described an output data field
+* Define the `resolve` method with the input `argument`s as keyword args to execute the mutation. The return value should match the `field` names.
+* Hook up the mutation class to the base mutation as a field; e.g., `field :create_comment, mutation: Mutations::CreateComment`
+
+Not sure I agree with this organization yet. Perhaps a better organization would be to have an `entry_points` folder containing the root types (Query, Mutation, Subscription). Mutations and Objects could be in their own folders, each with its base class `BaseMutation` and `BaseObject`. Try playing with this structure with a sufficnetly test-covered app.
+
+## Errors
+
+Raising works fine. `GraphQL::ExecutionError` is available.
+
+More informative would be to add error types as types to the schema./ E.g. define an `errors` field and be sure to return an `errors` value in the return value of a Mutation (or query). Doing this requires 100% `null`able fields.
+
+Define the `ready?` method to do GraphQL-layer authorization checks. This method can raise or can return `false, {...error_fields}` to indicate an error.
