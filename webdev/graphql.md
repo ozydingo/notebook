@@ -179,10 +179,15 @@ Handle authorization in the business layer. However, some authorization can be h
 
 * `argument` describes an input param
 * `field` described an output data field
+  * `type` appears to be a shorthand way of defining the return type instead of individual fields
 * Define the `resolve` method with the input `argument`s as keyword args to execute the mutation. The return value should match the `field` names.
 * Hook up the mutation class to the base mutation as a field; e.g., `field :create_comment, mutation: Mutations::CreateComment`
 
 Not sure I agree with this organization yet. Perhaps a better organization would be to have an `entry_points` folder containing the root types (Query, Mutation, Subscription). Mutations and Objects could be in their own folders, each with its base class `BaseMutation` and `BaseObject`. Try playing with this structure with a sufficnetly test-covered app.
+
+Additional mutation features
+
+* `null` class method specifies if field is nullable. Private API, apparently, yet recommended by how-to-graphql.
 
 ## Errors
 
