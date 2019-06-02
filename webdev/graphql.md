@@ -196,3 +196,21 @@ Raising works fine. `GraphQL::ExecutionError` is available.
 More informative would be to add error types as types to the schema./ E.g. define an `errors` field and be sure to return an `errors` value in the return value of a Mutation (or query). Doing this requires 100% `null`able fields.
 
 Define the `ready?` method to do GraphQL-layer authorization checks. This method can raise or can return `false, {...error_fields}` to indicate an error.
+
+## Codeflow
+
+It starts in `GraphqlController#execute`, which is the one route to which all graphql queries go. This calls `ServerSchema#execute` with the query params (which itself contains either the query or mutation key, or implicit). `ServerSchema` is a subclass of `GraphQL::Schema`, where `execute` is defined.
+
+### Auth strategy
+
+Create a mutation for signin / signout. Proper JWT is stateless, so no session. Typically, auth token is stored on the client and passed via headers. However, adding in persistence is easier on the client and allows for token invalidation.
+
+If tokens are to be persisted on the client, why not make them completely random string instead of encoded data, and store the user data on the back-end?
+
+Handle authorization in the business layer. This means every query and mutation is responsible for its own auth logic. This seems cumbersome, but it's pretty easy to add an auth method to Types::BaseObject and call this as needed, just like in controllers (except no before_action -- ah well I don't really like those anyway)
+
+Explorative thoughts:
+
+* Could be possible to defined authenticated vs unauthenticated query types, e.g. where the resolver method in `QueryType` checks for auth.
+* Could define a different `GraphQL::Schema` subclass. This could be referenced either by a switch in `GraphQLController#execute` or by defining different routes for authenticated vs unauthenticated requests.
+  * This requires changes on the client, but it's not unreasonable to have the client know if it's sending an auth or unauth request
