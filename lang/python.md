@@ -1,4 +1,9 @@
+## Resources
+
+http://book.pythontips.com/en/latest/
+
 ## pipenv
+
 https://pipenv.readthedocs.io/en/latest/install/
 
 ## pyenv
@@ -33,3 +38,13 @@ x.transpose() @ x
 #       [1., 1., 1., 1.],
 #       [1., 1., 1., 1.]])
 ```
+
+## Introspection
+
+`dir(obj)` - list methods of obj. `dir()` lists method in current scope.
+
+`type(obj)` - get class / type
+
+`id(obj)` - object id
+
+`import inpsect` -- use the awesome "inspect" module. Use: `inspect.getfile(object)` and `insepct.isfunction(obj)` More at [https://docs.python.org/3/library/inspect.html](https://docs.python.org/3/library/inspect.html).
