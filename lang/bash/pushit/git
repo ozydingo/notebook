@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+PUSHPATH="$HOME/.pushit"
+WITHOUTOPUSHPATH=$(echo "$PATH" | sed "s&$PUSHPATH&&")
+[ -f $PUSHPATH/push.ogg -a "$1" = "push" ] && play -q $PUSHPATH/push.ogg &
+PATH=$WITHOUTOPUSHPATH git "$@"
