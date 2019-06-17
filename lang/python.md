@@ -2,6 +2,10 @@
 
 http://book.pythontips.com/en/latest/
 
+## Module path
+
+`sys.path` => `['.', $PYTHONPATH, *default]`
+
 ## pipenv
 
 https://pipenv.readthedocs.io/en/latest/install/
