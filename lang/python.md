@@ -17,6 +17,12 @@ pyenv build failed, consult https://github.com/pyenv/pyenv/wiki/Common-build-pro
 
 Run `sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /`, then `pyenv install 2.7.12` succeeded.
 
+## Array manipulation
+
+Convert an array-like using `list(array_like)`
+
+`filter()`, `map()`, `reduce()`. As of python3 these are lazily eval'd, so use `list(filter(fn, array_like))` to immediately access.
+
 ## Matrix math
 
 `@` operator for matrix multiplication. Same as `np.dot` under specific assumed conditions.
