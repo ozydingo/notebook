@@ -6,7 +6,8 @@
 * `alt` + `>`: Go to last line (AKA cancel reverse history search)
 * `ctrl` + `g`: Cancel (AKA cancel reverse history search)
 * `alt` + `f`/`b`: Move cursor forward / back one word
-* `ctrl` + `w`, `alt` + `d`: Delete previous / next word
+* `ctrl` + `w`: Delete previous (to `\s`)
+* `alt` + `d`: Delete next word (to `\b`-ish)
 * `ctrl` + `t`, `alt` + `t`: Switch current & previous character / word
 * `ctrl` + `d`: Delete next character
 * `ctrl` + `d`: Quit current process
