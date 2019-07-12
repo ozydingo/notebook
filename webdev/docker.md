@@ -2,6 +2,12 @@
 
 Resource: https://docs.docker.com/get-started/
 
+## Concepts
+
+Container runs on Docker; it's OS-native and runs just like any other executable. VMs, by contrast, have their own guest OS and share a "hypervisor" to have virtual access to host OS resources.
+
+## Code
+
 ### Basics
 
 `./Dockerfile` defines commands to set up an image, e.g. `FROM python:2.7-slim` and `COPY . /app`
