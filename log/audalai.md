@@ -140,3 +140,7 @@ Deploy to Heroku using the `/public` strategy. Success!
 ## 2019-06-19
 
 Persist login using `localStorage`. Add an `authenticate` route that returns user info -- this both checks that the auth is still valid and avoids having to store more user data in `localStorage`. However as currently written it flashes the no-user screen for a hot second before the request completes, so we should try to do this prior to the initial diaply, or have a better visual representation.
+
+## 2019-06-20
+
+Create `audalai-files` bucket.
