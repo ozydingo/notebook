@@ -22,3 +22,12 @@ ffmpeg -i $INPUT \
   [v0] [v1] ... concat=n=$NUM, setpts=N/FRAME_RATE/TB, \
   "
 ```
+
+Extract frame images or the reverse
+
+```
+ffmpeg -i video.mp4 frame%04d.jpg
+ffmpeg -i frame%04d.jpg output.mp4
+```
+
+Use `-vframes N` to extract only N frames
