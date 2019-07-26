@@ -14,6 +14,8 @@ Container runs on Docker; it's OS-native and runs just like any other executable
 
 ```
 docker build -t friendlyhello .  # Create image using this directory's Dockerfile
+docker run -it freindlyhello bash   # Run image interactively, run command `bash`
+docker run -u $(id -u):$(id -g) ...   # Run as current user / group for correct permissions on mounted volumens.
 docker run -p 4000:80 friendlyhello  # Run "friendlyname" mapping port 4000 to 80
 docker run -d -p 4000:80 friendlyhello         # Same thing, but in detached mode
 docker container ls                                # List all running containers
