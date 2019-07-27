@@ -2,6 +2,41 @@
 
 http://book.pythontips.com/en/latest/
 
+## Basics
+
+`for x in iterable`
+`for (ii, x) in enumerate(iterable)`
+
+`if`/`else`/`elif`
+
+`for`/`continue`/`break`/`else`
+`while`/`continue`/`break`/`else`
+
+`try`/`except`/`else`/`finally`
+
+Dict: `{'a': 1, 'b': 2}`. Key order is not guaranteed.
+`dict.get(key, default)`
+
+Falsy: `False`, `None`, `0`, `[]`, `{}`, `x if x.size == 0`
+
+`x.is(y)` -- object equality.
+
+`def func(*varargs, **kwargs)`
+
+`a, b, *rest = some_iterable`
+
+`sys.stdin`, `sys.stdout`, `sys,.stderr`
+
+## Imports
+
+```
+import package
+import package as pkg
+from package import named_entity
+from path.to.subpackage import thing as alias
+from . import sibling
+```
+
 ## Module path
 
 `sys.path` => `['.', $PYTHONPATH, *default]`
@@ -71,26 +106,15 @@ seem to be equivalent. `'*'` is additionally useful for multiple args to a flag,
 * dest
   * Name of field on `args` return value. Default to arg name: name, first long-name, or short letter name.
 
-## pipenv
-
-https://pipenv.readthedocs.io/en/latest/install/
-
-## pyenv
-
-`pyenv install 2.7.12`
-pyenv build failed, consult https://github.com/pyenv/pyenv/wiki/Common-build-problems:
-`brew install readline xz`
-> already installed
-
-> When running Mojave or higher (10.14+) you will also need to install the additional SDK headers by downloading them from Apple Developers. You can also check under /Library/Developer/CommandLineTools/Packages/ as some versions of Mac OS will have the pkg locally.
-
-Run `sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /`, then `pyenv install 2.7.12` succeeded.
-
 ## Array manipulation
 
 Convert an array-like using `list(array_like)`
 
 `filter()`, `map()`, `reduce()`. As of python3 these are lazily eval'd, so use `list(filter(fn, array_like))` to immediately access.
+
+## Dimension ordering
+
+Dims are numbered left to right, highest-order to lowest. Negative numbering counts from lowest / rightmost. Dim -1 spans a row; for a column vector use `np.ones((n, 1))`.
 
 ## Matrix math
 
