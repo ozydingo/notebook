@@ -23,24 +23,21 @@ args = parser.parse_args()
 print args.accumulate(args.integers)
 ```
 
-### action
-
-* `store` (default)
-* `store_const`
-* `store_true`, `store_false`
-* `append`
-* `append_const`
-* `count`
-* `help`
-* `version`
-
-### nargs
-
-* [unspecified]: single argument
-* `'?'`: optional positional argument
-* `'*'`: list
-* `'+'`: list with at least one required
-* `argparse.REMAINDER`: remaining args
+* `action`:
+  * `store` (default)
+  * `store_const`
+  * `store_true`, `store_false`
+  * `append`
+  * `append_const`
+  * `count`
+  * `help`
+  * `version`
+* nargs
+  * [unspecified]: single argument
+  * `'?'`: optional positional argument
+  * `'*'`: list
+  * `'+'`: list with at least one required
+  * `argparse.REMAINDER`: remaining args
 
 ```
 parser.add_argument('one', type=str)
@@ -56,41 +53,23 @@ parser.add_argument('two', type=str, nargs=argparse.REMAINDER)
 
 seem to be equivalent. `'*'` is additionally useful for multiple args to a flag, e.g. `--foo 1 2 3`
 
-### const
-
-Read from code to use internally, not read from cmd line.
-
-### default
-
-Default value. Use `argparse.SUPPRESS` to omit the key when not provided.
-
-### type
-
-`int`, `str`, `file`. Use `argparse.FileType('w')` for write file. `file` args are opened automatically.
-
-You can also use a `<function(string)>` to parse the arg.
-
-### choices
-
-list of valid options
-
-### required
-
-Use only on flag args, indicated they are required. Use `nargs='?'` for an optional positional arg.
-
-### help
-
-Help string
-
-### metavar
-
-Var name in help text
-
-### dest
-
-Name of field on `args` return value. Default to arg name: name, first long-name, or short letter name.
-
-
+* const
+  * Read from code to use internally, not read from cmd line.
+* default
+  * Default value. Use `argparse.SUPPRESS` to omit the key when not provided.
+* type
+  * `int`, `str`, `file`. Use `argparse.FileType('w')` for write file. `file` args are opened automatically.
+  * You can also use a `<function(string)>` to parse the arg.
+* choices
+  * list of valid options
+* required
+  * Use only on flag args, indicated they are required. Use `nargs='?'` for an optional positional arg.
+* help
+  * Help string
+* metavar
+  * Var name in help text
+* dest
+  * Name of field on `args` return value. Default to arg name: name, first long-name, or short letter name.
 
 ## pipenv
 
