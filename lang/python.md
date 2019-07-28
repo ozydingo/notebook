@@ -147,3 +147,56 @@ x.transpose() @ x
 `id(obj)` - object id
 
 `import inpsect` -- use the awesome "inspect" module. Use: `inspect.getfile(object)` and `insepct.isfunction(obj)` More at [https://docs.python.org/3/library/inspect.html](https://docs.python.org/3/library/inspect.html).
+
+## Decoartion
+
+```python
+from functools import wraps
+
+def decorate(func):
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        print("being")
+        func(*args, **kwargs)
+        print("end")
+    return decorated
+
+@decorate
+def say():
+    print("Hi")
+```
+
+Decorators can take args. Do this by defining an outer function that, when called, returns a decorator like before.
+
+```python
+def decorate(name):
+    def decorate_func(func):
+        @wraps(func)
+        def decorated_func(*args, **kwargs):
+            print("Hello, {}".format(name))
+            func(*args, **kwargs)
+        return decorated_func
+    return decorate_func
+
+@decorate("world")
+def say():
+    print("Hi")
+```
+
+Decorators can be defined from classes too:
+
+```python
+class Decorate(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        print("Hello")
+        return self.func(*args, **kwargs)
+
+@Decorate
+def say():
+    print("Hi")
+
+say()
+```
