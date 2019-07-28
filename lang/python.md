@@ -200,3 +200,77 @@ def say():
 
 say()
 ```
+
+## Collections
+
+### namedtuple
+
+```python
+from collections import namedtuple
+dims = namedtuple('dims', ['width', 'height'])
+d = dims(width=10, height=5)
+d.width
+```
+
+## Function caching
+
+```python
+from functools import lru_cache
+import random
+
+# cache values for up to 4 different arg inputs
+@lru_cache(maxsize=4)
+def compute(val):
+    print("Computing...")
+    return random.random()
+
+compute(0)
+# Computing...
+# => 0.4749983769717562
+compute(0)
+# => 0.4749983769717562
+```
+
+## Context management
+
+```python
+class Context(object):
+    def __init__(self, name):
+        print("Starting")
+        self.name = name
+    def __enter__(self):
+        print("Entering")
+        print("Hello, {}".format(self.name))
+        return self.name.upper()
+    def __exit__(self, type, value, traceback):
+        print("Exiting")
+
+with Context("world") as object:
+    print(object)
+
+# Starting
+# Entering
+# Hello, world
+# WORLD
+# Exiting
+```
+
+## Coroutines
+
+Like generators, but accept input instead of yielding output
+
+```python
+def bro():
+    print("Whassup")
+    while True:
+        line = yield
+        if line.lower() == "bro":
+            print("Bro!")
+
+dude = bro()
+next(dude)
+# Whassup
+dude.send("hey")
+dude.send("bro")
+# Bro!
+```
