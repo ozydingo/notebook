@@ -27,6 +27,56 @@ Falsy: `False`, `None`, `0`, `[]`, `{}`, `x if x.size == 0`
 
 `sys.stdin`, `sys.stdout`, `sys,.stderr`
 
+## String formatting
+
+let:
+
+```
+name = 'world'
+year = 2019
+```
+
+Old way: `"hello, %s, it's %d" % (name, year)`
+
+Less old way: `"hello {name}, it's {year}".format(name=name, year=year)`
+
+New way: `f"hello, {name}, it's {year}"`
+
+`__str__()` -- human readable string.
+
+`__repr__()` -- string representation.
+
+```python
+class Thing:
+    def __str__(self):
+        return "str"
+    def __repr__(self):
+        return "repr"
+thing = Thing()
+thing
+# repr
+"Thing: %s" % (thing)
+# => Thing: str
+"Thing: {}".format(thing)
+# => Thing: str
+f"Thing: {thing}"
+# => Thing: str
+f'Thing: {thing!r}'
+# => Thing: repr
+```
+
+String concat: just whitespace
+
+```python
+"Hello, " "world"
+# => 'Hello, world'
+(
+    "Hello, world. "
+    "It's 2019."
+)
+# => "Hello, world. It's 2019."
+```
+
 ## Imports
 
 ```
