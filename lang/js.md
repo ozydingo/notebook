@@ -1,3 +1,70 @@
+## Exports
+
+### Name exports
+
+lib.js
+
+```js
+export const sqrt = Math.sqrt;
+export function square(x) {
+    return x * x;
+}
+export function diag(x, y) {
+    return sqrt(square(x) + square(y));
+}
+```
+
+main.js
+
+```js
+import { square, diag } from 'lib';
+console.log(square(11)); // 121
+console.log(diag(4, 3)); // 5
+```
+
+of
+
+```js
+import * as lib from 'lib';
+console.log(lib.square(11)); // 121
+console.log(lib.diag(4, 3)); // 5
+```
+
+### Default exports
+
+//------ myFunc.js ------
+
+```js
+export default function () { ... };
+```
+
+//------ main1.js ------
+
+```js
+import myFunc from 'myFunc';
+myFunc();
+```
+
+### Mixed
+
+//------ underscore.js ------
+
+```js
+export default function (obj) {
+    ...
+};
+export function each(obj, iterator, context) {
+    ...
+}
+export { each as forEach };
+```
+
+//------ main.js ------
+
+```js
+import _, { each } from 'underscore';
+```
+
 ## Promises
 
 ```js
