@@ -61,20 +61,20 @@ thing
 # => Thing: str
 f"Thing: {thing}"
 # => Thing: str
-f'Thing: {thing!r}'
-# => Thing: repr
 ```
 
-String concat: just whitespace
+Unique to f-strings:
 
 ```python
-"Hello, " "world"
-# => 'Hello, world'
-(
-    "Hello, world. "
-    "It's 2019."
+f'Thing: {thing!r}'
+# => Thing: repr
+name, year = 'world', 2019
+message = (
+    f"Hi {name}. "
+    f"It's {year}."
 )
-# => "Hello, world. It's 2019."
+message
+# => "Hi world. It's 2019."
 ```
 
 ## Imports
