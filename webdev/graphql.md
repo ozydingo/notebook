@@ -189,6 +189,53 @@ Additional mutation features
 
 * `null` class method specifies if field is nullable. Private API, apparently, yet recommended by how-to-graphql.
 
+A mutation query is just a normal graphql query, and `BaseMutationType` works the same way as `BaseQueryType` since they both inherit from `BaseObject`. Thus is it possible to write mutations exactly as you would queries, and tbh I don't see a good reason yet why not to. But reason mey yet reveal itself.
+
+For example:
+
+```ruby
+module Types
+  class MutationType < BaseObject
+    field :rename_file, MediaFileType, null: false do
+      argument :id, ID, required: true
+      argument :name, String, required: true
+    end
+
+    def rename_file(id:, name:)
+      file = project.media_files.find(id)
+      file.update_attributes!(name: name)
+      return file
+    end
+  end
+end
+```
+
+works as well as the recommended
+
+```ruby
+module Types
+  class MutationType < BaseObject
+    field :rename_file, mutation: Mutations::RenameFile
+  end
+end
+
+module Mutations
+  class RenameFile < Mutations::BaseMutation
+    argument :id, ID, required: true
+    argument :name, String, required: true
+
+    type Types::MediaFileType
+
+    def resolve(id:, name:)
+      file = project.media_files.find(id)
+      file.update_attributes!(name: name)
+      return file
+    end
+  end
+end
+
+```
+
 ## Errors
 
 Raising works fine. `GraphQL::ExecutionError` is available.
