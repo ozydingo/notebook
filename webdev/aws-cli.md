@@ -44,3 +44,12 @@ aws_secret_access_key = [**REDACTED**]
 aws_access_key_id = [**REDACTED**]
 aws_secret_access_key = [**REDACTED**]
 ```
+
+## Security Groups
+
+To see the network interfaces that use a security group:
+
+```
+group_id=sg-030d6d5810616ba2e
+aws ec2 describe-network-interfaces --query="NetworkInterfaces[0].Status" --filters Name=group-id,Values=$group_id
+```
