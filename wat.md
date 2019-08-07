@@ -62,6 +62,12 @@ More: https://www.learnopencv.com/why-does-opencv-use-bgr-color-format/
 
 ## AWS
 
+### Sign-in sessions
+
+After some amount of time, you get logged out. That's a security feature I can accept. To log back in, click a button. No password or reauthentication.
+
+Wat?
+
 ### Granting permissions to read an s3 bucket.
 
 * Read s3 from an ElasticBeanstalk app.
