@@ -25,7 +25,8 @@ def hello():
     html = f"<h3>Hello {name}!</h3>" \
         f"<b>Hostname:</b> {host}<br/>" \
         f"<b>Visits:</b> {visits}<br/>" \
-        f"{greeting}"
+        f"{greeting}<br/>"\
+         "<img src='/static/assets/whale.png' />"
 
     return html
 
