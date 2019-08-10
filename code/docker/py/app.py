@@ -4,7 +4,7 @@ import sys
 import os
 import socket
 
-import my_module.stuff as stuff
+import whale.greeter as greeter
 
 # Connect to Redis
 redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
@@ -18,16 +18,16 @@ def hello():
     except RedisError:
         visits = "<i>cannot connect to Redis, counter disabled</i>"
 
-    html = "<h3>Hello {name}!</h3>" \
-           "<b>Hostname:</b> {hostname}<br/>" \
-           "<b>Visits:</b> {visits}<br/>" \
-           "{msg}"
-    return html.format(
-        name=os.getenv("NAME", "world"),
-        hostname=socket.gethostname(),
-        visits=visits,
-        msg=stuff.msg()
-    )
+    name = os.getenv("NAME", "world")
+    greeting = greeter.greet(name)
+    host = socket.gethostname()
+
+    html = f"<h3>Hello {name}!</h3>" \
+        f"<b>Hostname:</b> {host}<br/>" \
+        f"<b>Visits:</b> {visits}<br/>" \
+        f"{greeting}"
+
+    return html
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
