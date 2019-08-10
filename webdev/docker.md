@@ -6,7 +6,31 @@ Resource: https://docs.docker.com/get-started/
 
 Container runs on Docker; it's OS-native and runs just like any other executable. VMs, by contrast, have their own guest OS and share a "hypervisor" to have virtual access to host OS resources.
 
+Image: code to run an application
+Container: a built instance of an image
+Service: essentially, a container in production performing its job.
+
 ## Code
+
+### An example workflow
+
+```sh
+# build it
+docker build -t my_image_name .
+# test it out
+docker run -p 4000:80 my_image_name
+# tag it for a remote
+docker tag my_image_name username/repo:remote_tag_name
+# push it up
+docker push username/repo:remote_tag_name
+# start a swarm
+docker swarm init
+# deploy a stack (locally)
+docker stack deploy -c path/to/docker-compose.yml my_app_name
+# tear down
+docker stack rm my_app_name
+docker swarm leave --force
+```
 
 ### Basics
 
