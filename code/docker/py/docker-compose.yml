@@ -1,0 +1,25 @@
+# This file does not need to be colocated with the Dockerfile.
+# It just pulls the image specified in `services`.
+version: "3"
+services:
+  web:
+    # Pull the image from here:
+    image: ozydingo/get-started:whale
+    deploy:
+      # Run 2 instances of the image as the "web" service.
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      # Restart immediately on failure.
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "4000:80"
+    # Use the webnet network, defined below
+    networks:
+      - webnet
+networks:
+  # Define "webnet" network with default settings
+  webnet:
