@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from redis import Redis, RedisError
 import sys
 import os
@@ -18,7 +18,11 @@ def hello():
     except RedisError:
         visits = "<i>cannot connect to Redis, counter disabled</i>"
 
+    salutation = request.args.get('s', None)
+
     name = os.getenv("NAME", "world")
+    if salutation:
+        name = f"{salutation} {name}"
     greeting = greeter.greet(name)
     host = socket.gethostname()
 
