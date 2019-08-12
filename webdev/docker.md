@@ -6,9 +6,11 @@ Resource: https://docs.docker.com/get-started/
 
 Container runs on Docker; it's OS-native and runs just like any other executable. VMs, by contrast, have their own guest OS and share a "hypervisor" to have virtual access to host OS resources.
 
-Image: code to run an application
-Container: a built instance of an image
+Image: code to run an application.
+Container: a built instance of an image.
 Service: essentially, a container in production performing its job.
+Swarm: a cluster of docker machines running a set of service(s)
+Stack: A group of intrrelated services
 
 ## Code
 
@@ -30,6 +32,37 @@ docker stack deploy -c path/to/docker-compose.yml my_app_name
 # tear down
 docker stack rm my_app_name
 docker swarm leave --force
+```
+
+To deploy an image from a private repo:
+
+```sh
+docker login registry.example.com
+docker stack deploy --with-registry-auth -c path/to/docker-compose.yml my_app_name
+```
+
+### Running a swarm
+
+```sh
+# Set up virtual machines
+docker-machine create --driver virtualbox myvm1
+docker-machine create --driver virtualbox myvm2
+# Get machine IP addresses
+docker-machine ls
+# Initialize the swarm, retrieve swarm manager token
+docker-machine ssh myvm1 docker swarm init --advertise-addr ${ip_addr}:${port}
+# Join the swarm
+docker-machine ssh myvm2 "docker swarm join --token ${token} ${ip_adde}:2377"
+# Set up local env to run through myvm1
+eval $(docker-machine env myvm1)
+# Deploy the app, just like above
+docker stack deploy -c path/to/docker-compose.yml my_app_name
+
+# Tear down
+docker stack rm my_app_name
+docker-machine ssh myvm2 "docker swarm leave"
+docker-machine ssh myvm1 "docker swarm leave --force"
+eval $(docker-machine env -u)
 ```
 
 ### Basics
