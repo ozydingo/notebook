@@ -105,3 +105,10 @@ Or you can just grant all EC2 instances full S3 access. This solution is not rec
   * No, remember, can't redeploy a stack if its first deploy failed.
     * Delete and try again
       * Failed again. Same error.
+
+### Triggering something off of an existing s3 bucket
+
+* Not supported. You can only trigger a Lambda on a bucket event if the bucket was created by the template.
+  * Workaround:
+    * Deploy without the trigger, then add the trigger later
+    * Use an SNS channel instead and have the bucket publish SNS events
