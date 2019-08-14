@@ -30,6 +30,13 @@ Unsortable
 [1, 2, nan, 0]
 ```
 
+## Javascript
+
+```js
+new Date(2019, 8, 01, 12, 13, 14)
+//=> 2019-09-01T16:13:14.000Z
+```
+
 ## Bash
 
 `[-z]`, [`-n`]: I literally have to use a pneumonic each time to remember which one means what.
