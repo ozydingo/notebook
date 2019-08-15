@@ -236,6 +236,8 @@ end
 
 ```
 
+When using the first form and *also* specifying the `mutation` keyword, Graphql-ruby calls the mutation and not the method.
+
 ## Errors
 
 Raising works fine. `GraphQL::ExecutionError` is available.
