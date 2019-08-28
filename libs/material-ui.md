@@ -1,3 +1,7 @@
+## Default theme
+
+https://material-ui.com/customization/default-theme/
+
 ## Example theme data:
 
 ```
