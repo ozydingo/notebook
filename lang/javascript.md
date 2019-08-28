@@ -236,6 +236,21 @@ let {x: variableX = 10} = obj;
 // variableX == 10
 ```
 
+Nested destructuring will set only the inner values:
+
+```
+> {a: {x, y}} = {a: {x: 2, y: 3, z: 4}, b: 2}
+{ a: { x: 2, y: 3, z: 4 }, b: 2 }
+> a
+Thrown:
+ReferenceError: a is not defined
+> x
+2
+> y
+3
+>
+```
+
 This can be applied to function arguments. However, if no arg is passed we can get an error:
 
 ```
