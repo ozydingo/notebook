@@ -344,3 +344,20 @@ obj1 = {a: 1, b: 2, c: 3}
 ```
 
 You can of course just use `obj1` in this case.
+
+## Tagged template literals
+
+```
+function tag(strings, ...rest){
+  console.log("string: ", strings)
+  console.log("rest", rest)
+}
+
+tag`hello${1} and goodbye ${2}`
+//=> string:  [ 'hello', ' and goodbye ', '' ]
+//=> rest [ 1, 2 ]
+```
+
+Default tagging function is concatenation, hence the main usages as string interpolation.
+
+A tagging function is a regular function an need not return a string.
