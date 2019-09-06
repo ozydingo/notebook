@@ -18,6 +18,32 @@
 * `ctrl` + `u`: Kill to start of line
 * `ctrl` + `y`: Yank (type most recently killed text)
 
+## I/O Recirection
+
+Heredoc: in-place file
+
+```bash
+cat <<HERE
+hello
+world
+HERE
+# => hello
+# => world
+```
+
+Herestring: in-place stdin. Useful in combination with process substitution
+
+```
+read a b <<<"10 20"
+read a b <<<$(echo "author status")
+```
+
+Input redirection
+
+```
+while read line; do echo $line; done < $file
+```
+
 ## Pattern Matching
 
 ```
