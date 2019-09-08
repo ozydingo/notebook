@@ -1,0 +1,241 @@
+Update three! A lot has changed since 2016, so I’ll be posting a new version of this tutorial soon. In the meantime, please see the comments for common sticking points and troubleshooting.
+
+There have been many recent examples of neural networks making interesting content after the algorithm has been fed input data and “learned” about it. Many of these, Google’s Deep Dream being the most well-covered, use and generate images, but what about text? This tutorial will show you how to install Torch-rnn, a set of recurrent neural network tools for character-based (ie: single letter) learning and output – it’s written by Justin Johnson, who deserves a huge “thanks!” for this tool.
+
+The details about how all this works are complex and quite technical, but in short we train our neural network character-by-character, instead of with words like a Markov chain might. It learns what letters are most likely to come after others, and the text is generated the same way. One might think this would output random character soup, but the results are startlingly coherent, even more so than more traditional Markov output.
+
+Torch-rnn is built on Torch, a set of scientific computing tools for the programming language Lua, which lets us take advantage of the GPU, using CUDA or OpenCL to accelerate the training process. Training can take a very long time, especially with large data sets, so the GPU acceleration is a big plus.
+
+You can read way more info on how this all works here:
+http://karpathy.github.io/2015/05/21/rnn-effectiveness
+
+STEP 1: Install Torch
+First, we have to install Torch for our system. (This section via this Torch install tutorial.)
+
+A few notes before we start:
+
+Installing Torch will also install Lua and luarocks  (the Lua package manager) so no need to do that separately.
+If Lua already installed, you may run into some problems (I’m not sure how to fix that, sorry!)
+We’ll be doing everything in Terminal – if you’ve never used the command-line, it would be good to learn a bit more about how that works before attempting this install.
+If you’re running a newer OS such as El Capitan, you may run into problems installing Torch, or installing packages afterwards. If that’s the case, you can follow these instructions.
+In Terminal, go to your user’s home directory* and run the following commands one at a time:
+
+git clone https://github.com/torch/distro.git ~/torch --recursive
+cd ~/torch
+bash install-deps
+./install.sh
+1
+2
+3
+4
+git clone https://github.com/torch/distro.git ~/torch --recursive
+cd ~/torch
+bash install-deps
+./install.sh
+This downloads the Torch repository and installs it with Lua and some core packages that are required. This may take a few minutes.
+
+We need to add Torch to the PATH  variable so it can be found by our system. Easily open your .bash_profile  file (which is normally hidden) in a text editor using this command:
+
+touch ~/.bash_profile; open ~/.bash_profile
+1
+touch ~/.bash_profile; open ~/.bash_profile
+And add these two lines at very bottom:
+
+# TORCH
+export PATH=$PATH:/Users/<your user name>/torch/install/bin
+1
+2
+# TORCH
+export PATH=$PATH:/Users/<your user name>/torch/install/bin
+…replacing your username in the path. Save and close, then restart Terminal. When done, test it with the command:
+
+th
+1
+th
+Which should give you the Torch prompt. Use Control-c twice to exit, or type os.exit().
+
+* You can install Torch anywhere you like, but you’ll have to update all the paths in this tutorial to your install location.
+
+STEP 2: Install CUDA Support
+Note: this step is only possible if your computer has an NVIDIA graphics card!
+
+We can leverage the GPU of our computer to make the training process much faster. This step is optional, but suggested.
+
+Download the CUDA tools with the network install – this is way faster, since it’s a 300kb download instead of 1GB: https://developer.nvidia.com/cuda-downloads.
+
+Run installer; when done, we have to update PATH  variable in the .bash_profile  file like we did in the last step. Open the file and add these three lines (you may need to change CUDA-<version number>  depending on which you install – Kevin points out that CUDA 8 may cause errors):
+
+# CUDA
+export PATH=/Developer/NVIDIA/CUDA-7.5/bin:$PATH
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.5/lib:$DYLD_LIBRARY_PATH
+1
+2
+3
+# CUDA
+export PATH=/Developer/NVIDIA/CUDA-7.5/bin:$PATH
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.5/lib:$DYLD_LIBRARY_PATH
+You may also need to modify your System Preferences under Energy Saver:
+
+Uncheck Automatic Graphics Switch.
+Set Computer Sleep to “Never”.
+Restart Terminal and test the install by running this command:
+
+kextstat | grep -i cuda
+1
+kextstat | grep -i cuda
+You should get something like:
+
+286   0 0xffffff7f8356e000 0x2000     0x2000     com.nvidia.CUDA (1.1.0) 5AFE550D-6361-3897-912D-897C13FF6983 <4 1>
+1
+286   0 0xffffff7f8356e000 0x2000     0x2000     com.nvidia.CUDA (1.1.0) 5AFE550D-6361-3897-912D-897C13FF6983 <4 1>
+There are further tests in the NVIDIA docs, if you want to try them, but they’re not necessary for our purposes. If you want to go deeper into this process, you can follow these instructions from NVIDIA.
+
+STEP 3: Install HDF5 Library for Lua
+Torch-rnn comes with a preprocessor script, written in Python, that prepares our text for training. It will save our sample into an h5 and json file, but requires the HDF5 library to be installed.
+
+First, install HDF5 using Homebrew:
+
+brew tap homebrew/science
+brew install hdf5
+1
+2
+brew tap homebrew/science
+brew install hdf5
+(If you have issues with the install or in the next step, Joshua suggests adding the the flag --with-mpi to the Homebrew command above, which may help. If that doesn’t work, Charles has a suggested fix. If you get an error that says Unsupported HDF5 version: 1.10.0 , you can try Tom’s suggestion.)
+
+Move to the Torch folder inside your user home directory (ie: /Users/<your user name>/torch/). The following commands download the Torch-specific HDF5 implementation and installs them:
+
+git clone git@github.com:deepmind/torch-hdf5.git
+cd torch-hdf5
+luarocks make hdf5-0-0.rockspec
+1
+2
+3
+git clone git@github.com:deepmind/torch-hdf5.git
+cd torch-hdf5
+luarocks make hdf5-0-0.rockspec
+If you haven’t used git or Github before, as Luke points out in the comments, you might get an SSH key error. You can get a key, or just download the repository manually from here.
+
+STEP 4: Install HDF5 Library for Python
+We also need to install HDF5 support for Python. You can do this using Pip:
+
+sudo pip install h5py
+1
+sudo pip install h5py
+You may get a bunch of warnings, but that’s ok. Test that it works by importing the library:
+
+python
+import h5py
+1
+2
+python
+import h5py
+If it imports without error, you’re good!
+
+STEP 5: Install Torch-rnn
+Now that we’ve prepared our computer with all the required libraries, it’s time to finally install Torch-rnn!
+
+Download the ZIP file from the project’s GitHub repository.
+Unzip it and rename to torch-rnn.
+Move the Torch-rnn folder to your Torch install folder inside your user home directory (ie: /Users/<your user name>/torch/torch-rnn )
+(You can also do this by cloning the repo, but if you know how to do that, you probably don’t need the instructions in this step 😄)
+STEP 6: Prepare Your Data
+We’re ready to prepare some data! Torch-rnn comes with a sample input file (all the writings of Shakespeare) that you can use to test everything. Of course, you can also use your own data; just combine everything into a single text file.
+
+In the Terminal, go to your Torch-rnn folder and run the preprocessor script:
+
+python scripts/preprocess.py --input_txt data/tiny-shakespeare.txt --output_h5 data/tiny_shakespeare.h5 --output_json data/tiny_shakespeare.json
+1
+python scripts/preprocess.py --input_txt data/tiny-shakespeare.txt --output_h5 data/tiny_shakespeare.h5 --output_json data/tiny_shakespeare.json
+You should get a response that looks something like this:
+
+Total vocabulary size: 65
+Total tokens in file: 1115394
+Training size: 892316
+Val size: 111539
+Test size: 111539
+Using dtype <type 'numpy.uint8'>
+1
+2
+3
+4
+5
+6
+Total vocabulary size: 65
+Total tokens in file: 1115394
+Training size: 892316
+Val size: 111539
+Test size: 111539
+Using dtype <type 'numpy.uint8'>
+This will save two files to the data directory (though you can save them anywhere): an h5 and json file that we’ll use to train our system.
+
+STEP 7: Train
+The next step will take at least an hour, perhaps considerably longer, depending on your computer and your data set. But if you’re ready, let’s train our network! In the Torch-rnn folder and run the training script (changing the arguments if you’ve used a different data source or saved them elsewhere):
+
+th train.lua -input_h5 data/tiny_shakespeare.h5 -input_json data/tiny_shakespeare.json
+1
+th train.lua -input_h5 data/tiny_shakespeare.h5 -input_json data/tiny_shakespeare.json
+The train.lua  script uses CUDA by default, so if you don’t have that installed or available, you’ll need to disable it and run CPU-only using the flag -gpu -1. Lots more training and output options are available here.
+
+It should spit out something like:
+
+Running with CUDA on GPU 0
+Epoch 1.00 / 50, i = 1 / 17800, loss = 4.163219
+Epoch 1.01 / 50, i = 2 / 17800, loss = 4.078401
+Epoch 1.01 / 50, i = 3 / 17800, loss = 3.937344
+...
+1
+2
+3
+4
+5
+Running with CUDA on GPU 0
+Epoch 1.00 / 50, i = 1 / 17800, loss = 4.163219
+Epoch 1.01 / 50, i = 2 / 17800, loss = 4.078401
+Epoch 1.01 / 50, i = 3 / 17800, loss = 3.937344
+...
+Your computer will get really hot and it will take a long time – the default is 50 epochs. You can see how long it took by adding time in front of the training command:
+
+time th train.lua -input_h5 data/tiny_shakespeare.h5 -input_json data/tiny_shakespeare.json
+1
+time th train.lua -input_h5 data/tiny_shakespeare.h5 -input_json data/tiny_shakespeare.json
+If you have a really small corpus (under 2MB of text) you may want to try adding the following flags:
+
+-batch_size 1 -seq_length 50
+1
+-batch_size 1 -seq_length 50
+Setting -batch_size somewhere between 1-10 should give better results with the output.
+
+STEP 8: Generate Some Output
+Getting output from our neural network is considerably easier than the previous steps (whew!). Just run the following command:
+
+th sample.lua -checkpoint cv/checkpoint_10000.t7 -length 2000
+1
+th sample.lua -checkpoint cv/checkpoint_10000.t7 -length 2000
+A few notes:
+
+The -checkpoint  argument is to a t7  checkpoint file created during training. You should use the one with the largest number, since that will be the latest one created. Note: running training on another data set will overwrite this file!
+The -length argument is the number of characters to output.
+This command also runs with CUDA by default, and can be disabled the same way as the training command.
+Results are printed to the console, though it would be easy to pipe it to a file instead:
+th sample.lua -checkpoint cv/checkpoint_10000.t7 -length 2000 > my_new_shakespeare.txt
+1
+th sample.lua -checkpoint cv/checkpoint_10000.t7 -length 2000 > my_new_shakespeare.txt
+Lots of other options here.
+STEP 8A: “Temperature”
+Changing the temperature flag will make the most difference in your network’s output. It changes the novelty and noise is the system, creating dramatically different output. The -temperature argument expects a number between 0 and 1.
+
+Higher temperature
+Gives a better chance of interesting/novel output, but more noise (ie: more likely to have nonsense, misspelled words, etc). For example, -temperature 0.9 results in some weird (though still surprisingly Shakespeare-like) output:
+
+“Now, to accursed on the illow me paory; And had weal be on anorembs on the galless under.”
+
+Lower temperature
+Less noise, but less novel results. Using -temperature 0.2 gives clear English, but includes a lot of repeated words:
+
+“So have my soul the sentence and the sentence/To be the stander the sentence to my death.”
+
+In other words, everything is a trade-off and experimentation is likely called for with all the settings.
+
+All Done!
+That’s it! If you make something cool with this tutorial, please tweet it to me @jeffthompson_.
