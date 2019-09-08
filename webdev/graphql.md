@@ -3,6 +3,10 @@
 ## In Short
 Define typed fields for queries, each field has a corresponding function definition. Fields can be plain data types or other custom model types, it's all the same to GraphQL.
 
+## Why to use a graphql query builder
+
+* GraphQL balks for quoted keys. Thus, trying to dynamically build queries is a little bit of a pain.
+
 ## Queries
 
 * The field is the basic unit, and defines a data response shape.

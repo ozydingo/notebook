@@ -236,7 +236,51 @@ let {x: variableX = 10} = obj;
 // variableX == 10
 ```
 
-This can be applied to function arguments. However, if no arg is passed we can get an error:
+Nested destructuring will set only the inner values:
+
+```
+> {a: {x, y}} = {a: {x: 2, y: 3, z: 4}, b: 2}
+{ a: { x: 2, y: 3, z: 4 }, b: 2 }
+> a
+Thrown:
+ReferenceError: a is not defined
+> x
+2
+> y
+3
+>
+```
+
+Default values can be applied at any level, thought the syntax is a little cryptic:
+
+```
+> {a: {x, y} = {}, c = 10} = {b: 2}
+{ b: 2 }
+> a
+Thrown:
+ReferenceError: a is not defined
+> b
+Thrown:
+ReferenceError: b is not defined
+> x
+undefined
+> y
+undefined
+> c
+10
+```
+
+Using nested destructuring without the matching shape will result in an error:
+
+```
+> {a: {x, y}} = {b: 2}
+Thrown:
+TypeError: Cannot destructure property `x` of 'undefined' or 'null'.
+```
+
+Use default values if this is a possibility.
+
+Function arguments can follow the same syntax. Like nested destructuring, this will result in an error if no or incorrectly shaped args were passed to the function.
 
 ```
 function foo({a: varA = 30}){console.log(varA)}
@@ -252,7 +296,7 @@ foo({a: 2})
 //    at foo (repl:1:13)
 ```
 
-The solution is a little cryptic but can be understood; add a default empty-object value to the argument.
+Just like before, use default args if this might happen.
 
 ```
 function foo({a: varA = 30} = {}){console.log(varA)}
@@ -300,3 +344,20 @@ obj1 = {a: 1, b: 2, c: 3}
 ```
 
 You can of course just use `obj1` in this case.
+
+## Tagged template literals
+
+```
+function tag(strings, ...rest){
+  console.log("string: ", strings)
+  console.log("rest", rest)
+}
+
+tag`hello${1} and goodbye ${2}`
+//=> string:  [ 'hello', ' and goodbye ', '' ]
+//=> rest [ 1, 2 ]
+```
+
+Default tagging function is concatenation, hence the main usages as string interpolation.
+
+A tagging function is a regular function an need not return a string.
