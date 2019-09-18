@@ -22,7 +22,10 @@ docker-machine ls  # => get IP address machine to use as manager
 eval $(docker-machine env myvm1)
 docker swarm init --advertise-addr 192.168.99.102 # => get token from output
 docker-machine ssh myvm2 "docker swarm join --token $TOKEN_FROM_ABOVE 192.168.99.102:2377"
+docker stack deploy -c docker-compose.yml STACK_NAME
 ```
+
+Navigate to `192.168.99.100` in a browser to view the web app.
 
 ## More depth
 
