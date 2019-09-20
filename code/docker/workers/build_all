@@ -1,0 +1,9 @@
+set -e
+
+for image in web worker; do
+  full_name="workers-${image}"
+  dir_name=$image
+  docker build -t $full_name $dir_name
+  docker tag $full_name ozydingo/${full_name}:latest
+  docker push ozydingo/${full_name}:latest
+done
