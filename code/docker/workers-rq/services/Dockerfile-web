@@ -1,0 +1,12 @@
+FROM python:3.7-slim
+WORKDIR /app
+
+COPY ./web/app /app
+COPY ./worker/lib /lib
+
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+EXPOSE 80
+ENV NAME web
+
+CMD ["python", "app.py"]
