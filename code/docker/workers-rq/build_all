@@ -1,0 +1,12 @@
+set -e
+
+for image in web worker; do
+  echo "Building ${image}..."
+  services_dir=services
+  full_name="workers-${image}"
+  dockerfile="${services_dir}/Dockerfile-${image}"
+  docker build -t $full_name -f $dockerfile $services_dir
+  docker tag $full_name ozydingo/${full_name}:latest
+  docker push ozydingo/${full_name}:latest
+  echo "Build ${image} successful!"
+done
