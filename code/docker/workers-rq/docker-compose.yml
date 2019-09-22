@@ -38,6 +38,14 @@ services:
     command: redis-server # --appendonly yes
     networks:
       - webnet
+  rq_dashboard:
+    image: eoranged/rq-dashboard
+    environment:
+      - RQ_DASHBOARD_REDIS_URL=redis://redis:6379
+    ports:
+      - "9181:9181"
+    networks:
+      - webnet
   visualizer:
     image: dockersamples/visualizer:stable
     ports:
