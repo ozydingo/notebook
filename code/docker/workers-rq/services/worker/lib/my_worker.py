@@ -1,9 +1,14 @@
 import logging
 import time
 
+logger = logging.getLogger("worker")
+logfh = logging.FileHandler("/proc/1/fd/1", "w")
+logfh.setLevel(logging.DEBUG)
+logger.addHandler(logfh)
+
 def work(n=10):
-    print("Going to work!")
+    logger.info("Going to work!")
     for ii in range(n):
-        print(f"{ii}: working...")
+        logger.info(f"{ii}: working...")
         time.sleep(1)
-    print("Done!")
+    logger.info("Done!")
