@@ -3,7 +3,7 @@ import time
 
 logger = logging.getLogger("worker")
 logger.setLevel(logging.DEBUG)
-logfh = logging.FileHandler("/proc/1/fd/1", "w")
+logfh = logging.FileHandler("/dev/fd/1", "w")
 logfh.setLevel(logging.DEBUG)
 logger.addHandler(logfh)
 
