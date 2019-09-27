@@ -5,7 +5,7 @@ const port = 3000;
 
 const redis = require('redis');
 const redisConfig = {
-  url: "redis://redis"
+  url: process.env['AM_I_DOCKER'] === 'true' ? "redis://redis" : 'localhost:6379'
 }
 const client = redis.createClient(redisConfig);
 client.on("error", (err) => {

@@ -2,6 +2,8 @@ version: "3"
 services:
   web:
     image: ozydingo/workers-web:latest
+    environment:
+      - AM_I_DOCKER=true
     deploy:
       replicas: 1
       restart_policy:
@@ -16,6 +18,8 @@ services:
       - webnet
   worker:
     image: ozydingo/workers-worker:latest
+    environment:
+      - AM_I_DOCKER=true
     deploy:
       replicas: 3
       restart_policy:

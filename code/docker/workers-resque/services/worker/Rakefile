@@ -1,8 +1,13 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'resque'
 
 # App
 require './my_worker'
 
 # Resque Tasks
 require 'resque/tasks'
+
+task "resque:setup" do
+  Resque.redis="redis://redis" if ENV["AM_I_DOCKER"] == 'true'
+end
