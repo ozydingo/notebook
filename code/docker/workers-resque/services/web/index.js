@@ -3,6 +3,15 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
+const redis = require('redis');
+const redisConfig = {
+  url: "redis://redis"
+}
+const client = redis.createClient(redisConfig);
+client.on("error", (err) => {
+  console.error("Redis error:", err);
+});
+
 function middle(func) {
   return (req, res, next) => {
     logRequest(req, res);
@@ -24,6 +33,18 @@ app.use(express.static(__dirname));
 
 app.post('/', (req, res) => {
   res.send(req.body);
+})
+
+app.post('/work', (req, res) => {
+  const n = Number(req.body.n) || 10;
+  const queue = req.body.queue || 'default';
+  const queueKey = `resque:queue:${queue}`
+  const data = {
+    "class": "MyWorker",
+    "args": [n],
+  }
+  client.rpush(queueKey, JSON.stringify(data));
+  res.send(data);
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
