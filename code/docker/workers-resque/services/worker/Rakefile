@@ -1,0 +1,8 @@
+require 'rubygems'
+require 'bundler/setup'
+
+# App
+require './my_worker'
+
+# Resque Tasks
+require 'resque/tasks'
