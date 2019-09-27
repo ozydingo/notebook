@@ -1,0 +1,10 @@
+FROM node:10
+
+WORKDIR /service
+EXPOSE 80
+
+COPY ./web .
+
+RUN npm install
+
+CMD ["npm", "start"]

@@ -1,16 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = 80;
 
 const redis = require('redis');
 const redisConfig = {
-  url: process.env['AM_I_DOCKER'] === 'true' ? "redis://redis" : 'localhost:6379'
+  url: process.env['AM_I_DOCKER'] === 'true' ? "redis://redis" : null
 }
-const client = redis.createClient(redisConfig);
-client.on("error", (err) => {
-  console.error("Redis error:", err);
-});
+
+let client
+try {
+  client = redis.createClient(redisConfig);
+  client.on("error", (err) => {
+    console.error("Redis error:", err);
+  });
+} catch(err) {
+  console.error("Could not connect to redis");
+}
 
 function middle(func) {
   return (req, res, next) => {
@@ -36,6 +42,10 @@ app.post('/', (req, res) => {
 })
 
 app.post('/work', (req, res) => {
+  if (!client || !client.connected) {
+    res.status(503).send({errors: ["Not connected to redis"]})
+  }
+
   const n = Number(req.body.n) || 10;
   const queue = req.body.queue || 'default';
   const queueKey = `resque:queue:${queue}`
