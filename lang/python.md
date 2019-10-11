@@ -365,6 +365,38 @@ f.next()
 # ...
 ```
 
+A generator can be defined by a class that defined the `__init__` and `__iter__` methods.
+
+```python
+class Fib(object):
+  def __init__(self, max):
+    self.prev = 0
+    self.cur = 1
+    self.max = max
+
+  def __iter__(self):
+     while self.cur < self.max:
+       yield self.cur
+       self.prev, self.cur = self.cur, self.cur + self.prev
+
+f = Fib(10)
+[ x for x in f ]
+# => [1, 1, 2, 3, 5, 8]
+```
+
+A generator expression is like list composition but with parens:
+
+```python
+g1 = ( x for x in range(1000000))
+g2 = (x for x in Fib(10000))
+g2.next()
+# => 1
+g2.next()
+# => 1
+g2.next()
+# => 2
+```
+
 ## Coroutines
 
 Like generators, but accept input instead of yielding output
