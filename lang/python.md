@@ -338,6 +338,33 @@ with Context("world") as object:
 # Exiting
 ```
 
+## Iterators
+
+An iterator is an object with the `__init__`, `__iter__`, and `__next__` functions.
+  * `__next__` should return the next value or raise a `StopIteration`.
+  * `__iter__` returns `self`.
+
+`iter(iterable)` will create an iterator from an enumerable object.
+`next(iterator)` call `__next__` on `iterator`.
+
+## Generators
+
+A generator is a function that keeps state and calls `yield`. Each call to `yield` returns the next value in the sequence.
+
+```python
+def fib():
+  prev = 0
+  cur = 1
+  while True:
+    yield cur
+    prev, cur = cur, prev + cur
+
+f = fib();
+f.next()
+f.next()
+# ...
+```
+
 ## Coroutines
 
 Like generators, but accept input instead of yielding output
