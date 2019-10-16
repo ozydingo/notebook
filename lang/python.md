@@ -360,10 +360,18 @@ def fib():
     prev, cur = cur, prev + cur
 
 f = fib();
+# python 3
+next(f)
+next(f)
+#python 2
 f.next()
 f.next()
 # ...
 ```
+
+Get a finite length of data from an infinite generator using composition:
+
+[next(f) for _ in range(10)]
 
 A generator can be defined by a class that defined the `__init__` and `__iter__` methods.
 
@@ -389,11 +397,11 @@ A generator expression is like list composition but with parens:
 ```python
 g1 = ( x for x in range(1000000))
 g2 = (x for x in Fib(10000))
-g2.next()
+next(g2)
 # => 1
-g2.next()
+next(g2)
 # => 1
-g2.next()
+next(g2)
 # => 2
 ```
 
