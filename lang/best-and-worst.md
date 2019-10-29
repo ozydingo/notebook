@@ -15,6 +15,7 @@ Worst:
 ```python
 from path.to.module import thing
 if (x := 1): print(x)
+my_tuple = 1,
 ```
 
 ## Ruby
