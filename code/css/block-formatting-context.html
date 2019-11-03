@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    .lane {
+      width: 300px;
+      height: 100vh;
+      border-width: 0px 1px;
+      border-style: dashed;
+      border-color: black;
+      overflow: auto;
+    }
+    div {
+      border: 2px black solid;
+      width: 100%;
+      margin: 5px;
+    }
+    .bfc {
+      overflow: auto;
+    }
+    .float {
+      float: right;
+      width: 50%;
+    }
+    .relative {
+      position: relative;
+    }
+    .content {
+      margin-top: 50px;
+    }
+    .absolute {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="lane">
+    <p>Block formatting context</p>
+    <div class="bfc content">
+      BFC
+      <div class="float">
+        This is some long floated content that takes up space.
+      </div>
+    </div>
+    <div class="non-bfc content">
+      Not BFC
+      <div class="float">
+        This is some long floated content that takes up space.
+      </div>
+    </div>
+    <div class="relative content">
+      Relative
+      <div class="float">
+        This is some long floated content that takes up space.
+      </div>
+    </div>
+    <div class="relative content">
+      Relative
+      <div class="absolute">
+        This is some long absolutely positioned content that takes up space.
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

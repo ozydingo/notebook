@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+    }
+    .lane {
+      width: 300px;
+      height: 100vh;
+      border-width: 0px 1px;
+      border-style: dashed;
+      border-color: black;
+    }
+    .container {
+      margin: 10px;
+      border: 3px solid black;
+      background-color: #88f;
+      position: relative;
+    }
+    .sibling {
+      margin: 10px;
+      background-color: #8f8;
+    }
+    .border {
+      border: 2px black solid;
+    }
+    .padding {
+      padding: 5px;
+    }
+    .overflow {
+      overflow: hidden;
+    }
+    .parent {
+      margin: 10px;
+      background-color: #f88;
+      border: 2px solid #844;
+    }
+    .child {
+      margin: 10px;
+      background-color: #ff8;
+      border: 2px solid #884;
+    }
+    .content {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="lane">
+    <p>Block-display sibling margins colapse. Child (text) margin collapses with parent (green div) margin unless a border or padding is in between or if block-formatting context (here, due to overflow: hidden) is established.</p>
+    <div class="container">
+      <div class="sibling">
+        <div class="content">normal</div>
+      </div>
+      <div class="sibling">
+        <div class="content">normal</div>
+      </div>
+      <div class="sibling border">
+        <div class="content">border</div>
+      </div>
+      <div class="sibling border">
+        <div class="content">border</div>
+      </div>
+      <div class="sibling">
+        <div class="content">normal</div>
+      </div>
+      <div class="sibling">
+        <div class="content">normal</div>
+      </div>
+      <div class="sibling padding">
+        <div class="content">padding</div>
+      </div>
+      <div class="sibling padding">
+        <div class="content">padding</div>
+      </div>
+      <div class="sibling">
+        <div class="content">normal</div>
+      </div>
+      <div class="sibling">
+        <div class="content">normal</div>
+      </div>
+      <div class="sibling overflow">
+        <div class="content">overflow</div>
+      </div>
+      <div class="sibling overflow">
+        <div class="content">overflow</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <p>Margins do not collapse between inline siblings</p>
+    <div class="container">
+      <span class="sibling border">
+        <span class="content">border</span>
+      </span>
+      <span class="sibling border">
+        <span class="content">border</span>
+      </span>
+      <span class="sibling border">
+        <span class="content">border</span>
+      </span>
+      <span class="sibling border">
+        <span class="content">border</span>
+      </span>
+      <span class="sibling border">
+        <span class="content">border</span>
+      </span>
+      <span class="sibling border">
+        <span class="content">border</span>
+      </span>
+    </div>
+  </div>
+</body>
+</html>
