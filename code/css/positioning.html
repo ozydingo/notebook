@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <style>
+    .lane {
+      width: 400px;
+      height: 100vh;
+      border-width: 0px 1px;
+      border-style: dashed;
+      border-color: black;
+    }
+    .container {
+      border: 3px solid black;
+      position: relative;
+      margin: 1em;
+    }
+    .parent {
+      margin: 1em;
+      border: 2px solid blue;
+    }
+    .child {
+      border: 2px solid brown;
+      background-color: orange;
+    }
+    .parent.static {
+
+    }
+    .parent.relative {
+      position: relative;
+      top: 0px;
+    }
+    .child.absolute {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      height: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="lane">
+    <p> In both blocks below, the child is nested inside the parent and has <code>position: absolute</code>. However, when the parent is not a containing block, the child attaches to the outer block (which has <code>position: relative</code>, thereby declaring it a "containing block")</p>
+    <div class="container">
+      <p> This is some text that takes up space. It is not very interesting text, it is just here to take up some space.</p>
+      <div class="parent static">
+        <h2> Static parent</h2>
+        <div class="child absolute">
+          <p>absolute child with height 50%</p>
+        </div>
+        <p> Doggo ipsum big bork and boop da snoot </p>
+      </div>
+    </div>
+    <div class="container">
+      <p> This is some text that takes up space. It is not very interesting text, it is just here to take up some space.</p>
+      <div class="parent relative">
+        <h2> Relative parent </h2>
+        <div class="child absolute">
+          <p>absolute child with height 50%</p>
+        </div>
+        <p> Doggo ipsum big bork and boop da snoot </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
