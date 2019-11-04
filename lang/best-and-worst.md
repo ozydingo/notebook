@@ -16,6 +16,7 @@ Worst:
 from path.to.module import thing
 if (x := 1): print(x)
 my_tuple = 1,
+def any_class_instance_method(self, ...)
 ```
 
 ## Ruby
