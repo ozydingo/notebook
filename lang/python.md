@@ -424,3 +424,35 @@ dude.send("hey")
 dude.send("bro")
 # Bro!
 ```
+
+## Metaclasses
+
+Every class is an instance of a metaclass. `type` is the default metaclass. You can define your own.
+
+```py
+Bar = type('Bar', (Foo,), dict(attr=100))
+
+x = Bar()
+x.attr
+# => 100
+x.__class__
+# => <class '__main__.Bar'>
+x.__class__.__bases__
+# => (<class '__main__.Foo'>,)
+```
+
+You can define your own metaclass:
+
+```py
+class Meta(type):
+   def __new__(cls, name, bases, dct):
+       x = super().__new__(cls, name, bases, dct)
+       x.attr = 100
+       return x
+
+class Foo(metaclass=Meta):
+  pass
+
+Foo.attr
+# => 100
+```
