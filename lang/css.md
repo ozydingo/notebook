@@ -31,9 +31,11 @@
 
 ### The containing block
 
-* `absolute` elements' containing block is the nearest non-`static` ancestor. That includes `absolute`, `relative`, `fixed`, or `sticky`.
+* `absolute` elements' containing block is padding-box of the nearest non-`static` ancestor (`absolute`, `relative`, `fixed`, or `sticky`).
   * This *also* includes parents with non-`none` `transform` properties.
 * `fixed` elements' containing block is the viewport.
+* `absolute` or `fixed` elements' containing blocks are, instead, the padding box of the nearest ancestor with `transform` or `perspective` that is not `none`, a `will-change` property of `transform` or `perspective`, a non-`none` `filter` or `will-change` of `filter`, or `contain` value of `paint`
+* Other (`static`, `relative`, and `sticky`) elements' containing blocks are the content area of its nearest block-level ancestor or ancestor that established a formatting context (BFC, flex, table, grid).
 
 ### Block Formatting Context
 

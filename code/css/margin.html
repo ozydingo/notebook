@@ -4,26 +4,36 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0px;
+      padding: 0px;
     }
     body {
       display: flex;
+      padding: 2rem;
     }
     .lane {
       width: 300px;
-      height: 100vh;
+      height: 100%;
       border-width: 0px 1px;
       border-style: dashed;
       border-color: black;
+      padding: 2px;
     }
     .container {
-      margin: 10px;
       border: 3px solid black;
-      background-color: #88f;
       position: relative;
+      margin: 5px 0px;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .sibling {
       margin: 10px;
       background-color: #8f8;
+      border: 3px solid #484;
+    }
+    span.sibling {
+      line-height: 1.2;
+      white-space: nowrap;
     }
     .border {
       border: 2px black solid;
@@ -36,82 +46,87 @@
     }
     .parent {
       margin: 10px;
-      background-color: #f88;
-      border: 2px solid #844;
+      background-color: #8bf;
     }
     .child {
       margin: 10px;
-      background-color: #ff8;
-      border: 2px solid #884;
+      background-color: #fe8;
     }
     .content {
       margin: 10px;
+      border: 1px dashed black;
     }
   </style>
 </head>
 <body>
   <div class="lane">
-    <p>Block-display sibling margins colapse. Child (text) margin collapses with parent (green div) margin unless a border or padding is in between or if block-formatting context (here, due to overflow: hidden) is established.</p>
-    <div class="container">
-      <div class="sibling">
-        <div class="content">normal</div>
-      </div>
-      <div class="sibling">
-        <div class="content">normal</div>
-      </div>
-      <div class="sibling border">
-        <div class="content">border</div>
-      </div>
-      <div class="sibling border">
-        <div class="content">border</div>
-      </div>
-      <div class="sibling">
-        <div class="content">normal</div>
-      </div>
-      <div class="sibling">
-        <div class="content">normal</div>
-      </div>
-      <div class="sibling padding">
-        <div class="content">padding</div>
-      </div>
-      <div class="sibling padding">
-        <div class="content">padding</div>
-      </div>
-      <div class="sibling">
-        <div class="content">normal</div>
-      </div>
-      <div class="sibling">
-        <div class="content">normal</div>
-      </div>
-      <div class="sibling overflow">
-        <div class="content">overflow</div>
-      </div>
-      <div class="sibling overflow">
-        <div class="content">overflow</div>
-      </div>
+      <pre><div class="parent">
+  .parent {
+    margin: 10px;
+    background-color: #8bf;
+  }
+      </div></pre>
+    <pre><div class="child">
+  .child {
+    margin: 10px;
+    background-color: #fe8;
+  }
+      </div></pre>
+
+    <p>Block-axis (here, vertical) margins will collapse.</p>
+
+    <div class="parent">
+      <div class="child">default: block-axis margin collapse</div>
+    </div>
+
+    <p>A border or padding on the parent comes between the parent and child margins and prevents collapse. Block-formatting context (here, due to overflow: hidden) also disables margin collapse.</p>
+
+    <div class="parent border">
+      <div class="child">parent border: no collapse</div>
+    </div>
+    <div class="parent padding">
+      <div class="child">parent padding (5px): no collapse</div>
+    </div>
+    <div class="parent overflow">
+      <div class="child">parent overflow: no collapse</div>
+    </div>
+
+    <p> The same settings on the child has no effect as it does not come between the margins</p>
+
+    <div class="parent">
+      <div class="child border">child border: collapse</div>
+    </div>
+    <div class="parent">
+      <div class="child padding">child padding: collapse</div>
+    </div>
+    <div class="parent">
+      <div class="child overflow">child overflow: collapse</div>
     </div>
   </div>
 
   <div class="lane">
-    <p>Margins do not collapse between inline siblings</p>
+    <p>Margins between adjacent block siblings collapse. Borders do not come between and thus have no effect.</p>
     <div class="container">
-      <span class="sibling border">
-        <span class="content">border</span>
+      <div class="sibling">
+        Sibling
+      </div>
+      <div class="sibling">
+        Sibling
+      </div>
+      <div class="sibling">
+        Sibling
+      </div>
+    </div>
+    <p>But margins do not collapse between inline siblings</p>
+    <div class="container">
+      <span class="sibling">
+        Inline sibling
       </span>
-      <span class="sibling border">
-        <span class="content">border</span>
+      <span class="sibling">
+        Inline sibling
       </span>
-      <span class="sibling border">
-        <span class="content">border</span>
-      </span>
-      <span class="sibling border">
-        <span class="content">border</span>
-      </span>
-      <span class="sibling border">
-        <span class="content">border</span>
-      </span>
-      <span class="sibling border">
-        <span class="content">border</span>
+      <span class="sibling">
+        Inline sibling
       </span>
     </div>
   </div>

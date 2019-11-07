@@ -13,23 +13,33 @@
       border-color: black;
       overflow: auto;
     }
-    div {
-      border: 2px black solid;
+    .container {
+      overflow: auto;
       width: 100%;
-      margin: 5px;
+      margin-bottom: 10px;
     }
     .bfc {
       overflow: auto;
     }
     .float {
+      background-color: #fe8;
+      border: 3px solid #774;
       float: right;
-      width: 50%;
+      width: 35%;
+    }
+    .content {
+      width: 100%;
+      margin-top: 10px;
+      background-color: #8bf;
+      border: 3px solid #468;
+      padding: 3px;
+    }
+    .inner {
+      background-color: #8f8;
+      border: 3px solid #484;
     }
     .relative {
       position: relative;
-    }
-    .content {
-      margin-top: 50px;
     }
     .absolute {
       position: absolute;
@@ -41,29 +51,41 @@
 </head>
 <body>
   <div class="lane">
-    <p>Block formatting context</p>
-    <div class="bfc content">
-      BFC
-      <div class="float">
-        This is some long floated content that takes up space.
+    <p>One way to establish a block formatting context (BFC) is with <code>overflow != visible</code>  Less-supported but more semantic and with no other side effects is <code>display: flow-root</code></p>
+    <div class="container">
+      <div class="bfc content">
+        <div class="float">
+          This is some long floated content that takes up space.
+        </div>
+        Block formatting context: div expands to contain children.
       </div>
     </div>
-    <div class="non-bfc content">
-      Not BFC
-      <div class="float">
-        This is some long floated content that takes up space.
+    <div class="container">
+      <div class="content">
+        <div class="float">
+          This is some long floated content that takes up space.
+        </div>
+        Not BFC: children can "poke out".
       </div>
     </div>
-    <div class="relative content">
-      Relative
-      <div class="float">
-        This is some long floated content that takes up space.
+    <div class="container">
+      <div class="content">
+        <div class="float">
+          This is a floater.
+        </div>
+        <div class="inner bfc">
+          Inner div with BFC does not wrap around float. To demonstrate this, I need to write a lot more words here. So here are a lot more words. I need even more. Who can write this much?
+        </div>
       </div>
     </div>
-    <div class="relative content">
-      Relative
-      <div class="absolute">
-        This is some long absolutely positioned content that takes up space.
+    <div class="container">
+      <div class="content">
+        <div class="float">
+          This is a floater.
+        </div>
+        <div class="inner">
+          Inner div without BFC wraps around float. To demonstrate this, I need to write a lot more words here. So here are a lot more words. I need even more. Who can write this much?
+        </div>
       </div>
     </div>
   </div>

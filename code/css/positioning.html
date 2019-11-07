@@ -2,12 +2,19 @@
 <html lang='en'>
 <head>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+    }
     .lane {
       width: 400px;
-      height: 100vh;
+      height: 100%;
       border-width: 0px 1px;
       border-style: dashed;
       border-color: black;
+      padding: 3px;
     }
     .container {
       border: 3px solid black;
@@ -16,11 +23,15 @@
     }
     .parent {
       margin: 1em;
-      border: 2px solid blue;
+      padding: 1em;
+      border: 3px solid blue;
     }
     .child {
-      border: 2px solid brown;
+      border: 3px solid brown;
       background-color: orange;
+      padding: 0.25em 0.5em;
+      width: 50%;
+      height: 50%;
     }
     .parent.static {
 
@@ -28,36 +39,76 @@
     .parent.relative {
       position: relative;
       top: 0px;
+      z-index: 1;
     }
     .child.absolute {
       position: absolute;
       top: 0px;
       right: 0px;
-      height: 50%;
+    }
+    .child.relative {
+      position: relative;
+      width: 100%;
+    }
+    .middle {
+      border: 3px dashed black;
+      width: 100%;
+      padding: 1em;
+      background-color: #9999ff;
+      position: relative;
+      z-index: 0;
     }
   </style>
 </head>
 <body>
   <div class="lane">
-    <p> In both blocks below, the child is nested inside the parent and has <code>position: absolute</code>. However, when the parent is not a containing block, the child attaches to the outer block (which has <code>position: relative</code>, thereby declaring it a "containing block")</p>
+    <p> An absolute element's containing block is the padding box (includes padding and content boxes) nearest non-static ancestor. <code>position: relative</code> is a common way to define a containing block.</p>
     <div class="container">
-      <p> This is some text that takes up space. It is not very interesting text, it is just here to take up some space.</p>
+      <p> This is some boring text</p>
       <div class="parent static">
         <h2> Static parent</h2>
         <div class="child absolute">
-          <p>absolute child with height 50%</p>
+          position: absolute, height: 50%
         </div>
         <p> Doggo ipsum big bork and boop da snoot </p>
       </div>
     </div>
     <div class="container">
-      <p> This is some text that takes up space. It is not very interesting text, it is just here to take up some space.</p>
+      <p> This is some boring text</p>
       <div class="parent relative">
         <h2> Relative parent </h2>
         <div class="child absolute">
-          <p>absolute child with height 50%</p>
+          position: absolute, height: 50%
         </div>
         <p> Doggo ipsum big bork and boop da snoot </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <p> A static, relative, or sticky's element's containing block is the content block (excludes padding) nearest block-level ancestor</p>
+    <div class="container">
+      <div class="parent">
+        <span class="middle">
+          span (inline element) with padding
+          <div class="child relative">
+            Relative; width 100%
+          </div>
+          <p> Doggo ipsum big bork and boop da snoot </p>
+          This is not a containing block.
+        </span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="parent">
+        <div class="middle">
+          div (block element) with padding
+          <div class="child relative">
+            Relative; width 100%
+          </div>
+          <p> Doggo ipsum big bork and boop da snoot </p>
+          This is a containing block.
+        </div>
       </div>
     </div>
   </div>
