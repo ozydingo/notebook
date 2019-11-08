@@ -26,6 +26,8 @@
       border: 3px solid #774;
       float: right;
       width: 35%;
+      margin-left: 5px;
+      padding: 5px;
     }
     .content {
       width: 100%;
@@ -37,6 +39,8 @@
     .inner {
       background-color: #8f8;
       border: 3px solid #484;
+      text-align: justify;
+      padding: 3px;
     }
     .relative {
       position: relative;
@@ -51,7 +55,7 @@
 </head>
 <body>
   <div class="lane">
-    <p>One way to establish a block formatting context (BFC) is with <code>overflow != visible</code>  Less-supported but more semantic and with no other side effects is <code>display: flow-root</code></p>
+    <p>Block formatting context (BFC) encapsulates and isolates its children as a new sub-layout. One way to establish a block formatting context (BFC) is with <code>overflow != visible</code>  Less-supported but more semantic and with no other side effects is <code>display: flow-root</code></p>
     <div class="container">
       <div class="bfc content">
         <div class="float">
@@ -74,7 +78,7 @@
           This is a floater.
         </div>
         <div class="inner bfc">
-          Inner div with BFC does not wrap around float. To demonstrate this, I need to write a lot more words here. So here are a lot more words. I need even more. Who can write this much?
+          A sibling div with BFC does not wrap around the float. To demonstrate this, I need to write a lot more words here. So here are a lot more words. I need even more. Who can write this much?
         </div>
       </div>
     </div>
@@ -84,7 +88,7 @@
           This is a floater.
         </div>
         <div class="inner">
-          Inner div without BFC wraps around float. To demonstrate this, I need to write a lot more words here. So here are a lot more words. I need even more. Who can write this much?
+          A sibling div without BFC wraps around the float. To demonstrate this, I need to write a lot more words here. So here are a lot more words. I need even more. Who can write this much?
         </div>
       </div>
     </div>
