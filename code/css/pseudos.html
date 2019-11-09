@@ -63,7 +63,7 @@
       text-shadow: 1px 1px 1px #000;
     }
 
-    @keyframes spin {
+    @keyframes pop {
       from {
         transform: rotate(-7deg);
       }
@@ -102,10 +102,23 @@
     {
       border: 3px solid #a22;
       background-color: #d77;
-      animation-name: spin;
+      animation-name: pop;
       animation-timing-function: ease-in-out;
       animation-direction: alternate-reverse;
       animation-iteration-count: infinite;
+    }
+
+    ::selection {
+      background-color: transparent;
+      color: #008;
+      text-shadow:
+        1px -5px 1px hsl(0  , 80%, 70%, 0.8),
+        4px -3px 1px hsl(50 , 80%, 70%, 0.8),
+        6px -1px 1px hsl(80 , 80%, 70%, 0.8),
+        7px 1px  1px hsl(110, 80%, 70%, 0.8),
+        8px 3px  1px hsl(170, 80%, 75%, 0.8),
+        8px 5px  1px hsl(230, 80%, 80%, 0.8),
+        8px 7px  1px hsl(290, 80%, 80%, 0.8);
     }
 
   </style>
