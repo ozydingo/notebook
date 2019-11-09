@@ -86,7 +86,14 @@ Block formatting context is established by:
 * `*=`: match `/#{value}/`
 * `i`, as in `[name=thor i]`: use case-insensitive matching
 
-## Pseudo-classes
+### combinators:
+
+* `a ~ b`: match `b` that is a sibling of `a`
+* `a b`  : match `b` that is a descendant of `a`
+* `a > b`: match `b` that is a direct descendant of `a`
+* `a + b`: match `b` that is an immediate-following sibling of `a`
+
+### Pseudo-classes
 
 * `:first-child`, `:last-child`
 * `:only-child`
@@ -100,7 +107,7 @@ Block formatting context is established by:
 
 and [many more](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements#Pseudo-classes)
 
-## Pseudo-element
+### Pseudo-element
 
 * `::before`
 * `::after`
