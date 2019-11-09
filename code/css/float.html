@@ -1,24 +1,8 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
+  <link rel="stylesheet" href="./css.css" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0px;
-      padding: 0px;
-    }
-    body {
-      display: flex;
-      padding: 2rem;
-    }
-    .lane {
-      width: 300px;
-      height: 100%;
-      border-width: 0px 1px;
-      border-style: dashed;
-      border-color: black;
-      padding: 2px;
-    }
     .parent {
       background-color: #8bf;
       border: 3px solid #468;
@@ -55,10 +39,13 @@
       background-color: #a6c;
       border: 3px solid #537;
     }
-
   </style>
 </head>
 <body>
+<header>
+  Floats and Flex don't always play nice.
+</header>
+<main>
   <div class="lane">
     <p> Floated elements don't really float in flex or grid containers; the flex or grid context dictates their position.</p>
     <div class="parent static">
@@ -109,6 +96,6 @@
       </div>
     </div>
   </div>
-
+</main>
 </body>
 </html>

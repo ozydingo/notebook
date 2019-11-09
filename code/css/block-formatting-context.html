@@ -1,23 +1,8 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
+  <link rel="stylesheet" href="./css.css" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      display: flex;
-    }
-    .lane {
-      width: 300px;
-      height: 100vh;
-      border-width: 0px 1px;
-      border-style: dashed;
-      border-color: black;
-      overflow: auto;
-      position: relative;
-      padding: 3px;
-    }
     .container {
       overflow: auto;
       width: 100%;
@@ -66,8 +51,13 @@
   </style>
 </head>
 <body>
+<header>
+  <strong>Block formatting context</strong> (BFC) establishes a sub-layout of its children.
+  <p>Commonly, use <code>overflow != visible</code>. Less-supported but no side effects: <code>display: flow-root</code></p>
+</header>
+<main>
   <div class="lane">
-    <p>A parent with block formatting context (BFC) encapsulates and isolates its children as a new sub-layout. Commonly, use <code>overflow != visible</code>. Less-supported but no side effects: <code>display: flow-root</code></p>
+    <p>A parent with block formatting context encapsulates and isolates its children.</p>
     <code>normal</code>
     <div class="container">
       <div class="content">
@@ -119,6 +109,6 @@
       </div>
     </div>
   </div>
-
+</main>
 </body>
 </html>

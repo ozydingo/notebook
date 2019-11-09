@@ -1,24 +1,8 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
+  <link rel="stylesheet" href="./css.css" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0px;
-      padding: 0px;
-    }
-    body {
-      display: flex;
-      padding: 2rem;
-    }
-    .lane {
-      width: 300px;
-      height: 100%;
-      border-width: 0px 1px;
-      border-style: dashed;
-      border-color: black;
-      padding: 2px;
-    }
     .container {
       border: 3px solid black;
       position: relative;
@@ -36,10 +20,10 @@
       white-space: nowrap;
     }
     .border {
-      border: 2px black solid;
+      border: 2px #0006 solid;
     }
     .padding {
-      padding: 5px;
+      padding: 15px;
     }
     .overflow {
       overflow: hidden;
@@ -59,6 +43,10 @@
   </style>
 </head>
 <body>
+<header>
+  <strong>Margin-collapse</strong> is a sneaky mother
+</header>
+<main>
   <div class="lane">
       <pre><div class="parent">
   .parent {
@@ -72,35 +60,56 @@
     background-color: #fe8;
   }
       </div></pre>
-
+      <pre><div class="sibling">
+  .sibling {
+    margin: 10px;
+    background-color: #8f8;
+    border: 3px solid #484;
+  }
+      </div></pre>
+  </div>
+  <div class="lane">
     <p>Block-axis (here, vertical) margins will collapse.</p>
 
     <div class="parent">
       <div class="child">default: block-axis margin collapse</div>
     </div>
 
-    <p>A border or padding on the parent comes between the parent and child margins and prevents collapse. Block-formatting context (here, due to overflow: hidden) also disables margin collapse.</p>
+    <p>A border or padding on the parent comes between the parent and child margins and prevents collapse. <a href="./block-formatting-context.html">Block formatting context</a> (here, due to overflow: hidden) also disables margin collapse.</p>
 
-    <div class="parent border">
-      <div class="child">parent border: no collapse</div>
+    <div class="container">
+      <div class="parent border">
+        <div class="child">parent border: no collapse</div>
+      </div>
     </div>
-    <div class="parent padding">
-      <div class="child">parent padding (5px): no collapse</div>
+    <div class="container">
+      <div class="parent padding">
+        <div class="child">parent padding: no collapse</div>
+      </div>
     </div>
-    <div class="parent overflow">
-      <div class="child">parent overflow: no collapse</div>
+    <div class="container">
+      <div class="parent overflow">
+        <div class="child">parent overflow: no collapse</div>
+      </div>
     </div>
+  </div>
+  <div class="lane">
+    <p> Borders and padding on thge child do not lie between child and parent margins, so do not prevent collapse.</p>
 
-    <p> The same settings on the child has no effect as it does not come between the margins</p>
-
-    <div class="parent">
-      <div class="child border">child border: collapse</div>
+    <div class="container">
+      <div class="parent">
+        <div class="child border">child border: collapse</div>
+      </div>
     </div>
-    <div class="parent">
-      <div class="child padding">child padding: collapse</div>
+    <div class="container">
+      <div class="parent">
+        <div class="child padding">child padding: collapse</div>
+      </div>
     </div>
-    <div class="parent">
-      <div class="child overflow">child overflow: collapse</div>
+    <div class="container">
+      <div class="parent">
+        <div class="child overflow">child overflow: collapse</div>
+      </div>
     </div>
   </div>
 
@@ -130,5 +139,6 @@
       </span>
     </div>
   </div>
+</main>
 </body>
 </html>
