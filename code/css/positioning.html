@@ -5,7 +5,15 @@
     * {
       box-sizing: border-box;
     }
-    body {
+    header {
+      background-color: #eee;
+      width: 100%;
+      text-align: center;
+      padding: 0.7em;
+      margin-bottom: 3px;
+      box-shadow: 1px 2px 2px #2228;
+    }
+    main {
       display: flex;
     }
     .lane {
@@ -70,6 +78,10 @@
   </style>
 </head>
 <body>
+<header>
+  An element's <strong>containing block</strong> defines the anchors for position and relative size properties.
+</header>
+<main>
   <div class="lane">
     <p> An absolute element's containing block is its nearest non-<code>static</code> ancestor. <code>position: relative</code> is a common way to define a containing block.</p>
     <div class="container">
@@ -95,7 +107,7 @@
   </div>
 
   <div class="lane">
-    <p> An in-flow (<code>static</code>, <code>relative</code>, or <code>sticky</code>) element's containing block is its nearest block-level ancestor (including <code>inline-block</code>). The containing block defines relative units.</p>
+    <p> An in-flow (<code>position</code> is <code>static</code>, <code>relative</code>, or <code>sticky</code>) element's containing block is its nearest block-level ancestor (including <code>inline-block</code>). The containing block defines relative units.</p>
       <div class="parent">
         <p>This is the parent content. It's a div, so it's block level.</p>
         <span class="middle">
@@ -146,5 +158,6 @@
         <p> Doggo ipsum big bork and boop da snoot </p>
       </div>
   </div>
+</main>
 </body>
 </html>
