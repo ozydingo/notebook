@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    body {
+      display: flex;
+      font-weight: bold;
+    }
+    .lane {
+      width: 175px;
+      height: 100%;
+      border-width: 0px 2px;
+      border-style: dashed;
+      border-color: black;
+      padding: 3px;
+      margin: 0px -1px;
+    }
+    .items {
+      display: flex;
+      padding: 3px;
+      border: 3px dashed black;
+    }
+    .item {
+      border: 3px dashed #339;
+      background-color: #77f;
+      margin-right: 3px;
+    }
+    div.item {
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      animation-duration: 0.4s;
+    }
+    button.item {
+      border-radius: 13px;
+      width: 40px;
+      box-shadow: 2px 1px 3px #000;
+      height: 25px;
+      animation-duration: 0.57s;
+      animation-delay: -0.25s;
+    }
+    input.item {
+      box-shadow: inset 1px 0px 5px #000;
+      width: 45px;
+      height: 25px;
+      text-align: center;
+      color: #eee;
+      text-shadow: 1px 1px 1px #000;
+      border-radius: 5px;
+      animation-duration: 0.7s;
+      animation-delay: -0.5s;
+    }
+    input::placeholder {
+      color: #ccc;
+      text-shadow: 1px 1px 1px #000;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(-7deg);
+      }
+      to {
+        transform: rotate(7deg);
+      }
+    }
+
+    #empty :empty,
+    #not-empty :not(:empty),
+    #hover :hover,
+    #active :active,
+    #enabled :enabled,
+    #disabled :disabled,
+    #focus :focus,
+    #in-range :in-range,
+    #out-of-range :out-of-range,
+    #valid :valid,
+    #invalid :invalid,
+    #first-child :first-child,
+    #not-first-child :not(:first-child),
+    #nth-child-3 :nth-child(3),
+    #nth-child-3n-1 :nth-child(3n+1),
+    #last-child :last-child,
+    #nth-last-child-2 :nth-last-child(2),
+    #nth-last-child-3n-1 :nth-last-child(3n+1),
+    .only-child :only-child,
+    .first-of-type :first-of-type,
+    .last-of-type :last-of-type,
+    .button-last-of-type button:last-of-type,
+    .div-first-of-type div:first-of-type,
+    .div-nth-of-type-2n-1 div:nth-of-type(2n+1),
+    .only-of-type :only-of-type,
+    #this-is-a-placeholder
+    {
+      border: 3px solid #a22;
+      background-color: #d77;
+      animation-name: spin;
+      animation-timing-function: ease-in-out;
+      animation-direction: alternate-reverse;
+      animation-iteration-count: infinite;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="lane">
+    <code>:empty</code>
+    <div class="items" id="empty">
+      <div class="item">?</div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item">?</div>
+      <div class="item"></div>
+    </div>
+
+    <code>:not(:empty)</code>
+    <div class="items" id="not-empty">
+      <div class="item">?</div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item">?</div>
+      <div class="item"></div>
+    </div>
+
+    <code>:hover</code>
+    <div class="items" id="hover">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:active</code>
+    <div class="items" id="active">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:enabled</code>
+    <div class="items" id="enabled">
+      <button class="item">btn</button>
+      <button class="item" disabled>btn</button>
+      <button class="item" disabled>btn</button>
+    </div>
+
+    <code>:disabled</code>
+    <div class="items" id="disabled">
+      <button class="item">btn</button>
+      <button class="item" disabled>btn</button>
+      <button class="item" disabled>btn</button>
+    </div>
+
+    <code>:focus</code>
+    <div class="items" id="focus">
+      <input type="text" class="item" placeholder="text"></input>
+      <input type="text" class="item" placeholder="text"></input>
+      <input type="text" class="item" placeholder="text"></input>
+    </div>
+
+    <code>:in-range</code>
+    <div class="items" id="in-range">
+      1-10:&nbsp;
+      <input type="number" class="item" min=1 max=10 value=2></input>
+      <input type="number" class="item" min=1 max=10 value=12></input>
+    </div>
+
+    <code>:out-of-range</code>
+    <div class="items" id="out-of-range">
+      1-10:&nbsp;
+      <input type="number" class="item" min=1 max=10 value=2></input>
+      <input type="number" class="item" min=1 max=10 value=12></input>
+    </div>
+
+    <code>:valid</code>
+    <div class="items" id="valid">
+      <code>/\w+/&nbsp;</code>
+      <input type="text" class="item" pattern="\w+" value="abc123"></input>
+      <input type="text" class="item" pattern="\w+" value="abc!"></input>
+    </div>
+
+    <code>:invalid</code>
+    <div class="items" id="invalid">
+      <code>/\w+/&nbsp;</code>
+      <input type="text" class="item" pattern="\w+" value="abc123"></input>
+      <input type="text" class="item" pattern="\w+" value="abc!"></input>
+    </div>
+  </div>
+
+  <div class="lane">
+    <code>:first-child</code>
+    <div class="items" id="first-child">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:not(:first-child)</code>
+    <div class="items" id="not-first-child">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:nth-child(3)</code>
+    <div class="items" id="nth-child-3">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:nth-child(3n+1)</code>
+    <div class="items" id="nth-child-3n-1">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:last-child</code>
+    <div class="items" id="last-child">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:nth-last-child(2)</code>
+    <div class="items" id="nth-last-child-2">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:nth-last-child(3n+1)</code>
+    <div class="items" id="nth-last-child-3n-1">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:only-child</code>
+    <div class="items only-child">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:only-child</code>
+    <div class="items only-child">
+      <div class="item"></div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <code>:first-of-type</code>
+    <div class="items first-of-type">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <div class="item"></div>
+      <button class="item">btn</button>
+      <div class="item"></div>
+    </div>
+
+    <code>:last-of-type</code>
+    <div class="items last-of-type">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <div class="item"></div>
+      <button class="item">btn</button>
+      <div class="item"></div>
+    </div>
+
+    <code>button:last-of-type</code>
+    <div class="items button-last-of-type">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <div class="item"></div>
+      <button class="item">btn</button>
+      <div class="item"></div>
+    </div>
+
+    <code>div:first-of-type</code>
+    <div class="items div-first-of-type">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <div class="item"></div>
+      <button class="item">btn</button>
+      <div class="item"></div>
+    </div>
+
+    <code>div:nth-of-type(2n+1)</code>
+    <div class="items div-nth-of-type-2n-1">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <div class="item"></div>
+      <button class="item">btn</button>
+      <div class="item"></div>
+    </div>
+
+    <code>:only-of-type</code>
+    <div class="items only-of-type">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <div class="item"></div>
+      <button class="item">btn</button>
+      <div class="item"></div>
+    </div>
+
+    <code>:only-of-type</code>
+    <div class="items only-of-type">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+
+    <code>:only-of-type</code>
+    <div class="items only-of-type">
+      <button class="item">btn</button>
+      <div class="item"></div>
+      <button class="item">btn</button>
+      <button class="item">btn</button>
+    </div>
+  </div>
+</body>
+</html>
