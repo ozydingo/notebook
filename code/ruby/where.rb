@@ -1,28 +1,27 @@
-
 module Where
   class << self
     attr_accessor :editor
-    
+
     def is_proc(proc)
       source_location(proc)
     end
-    
+
     def is_method(klass, method_name)
       source_location(klass.method(method_name))
     end
-    
+
     def is_instance_method(klass, method_name)
       source_location(klass.instance_method(method_name))
     end
-    
+
     def are_methods(klass, method_name)
       are_via_extractor(:method, klass, method_name)
     end
-    
+
     def are_instance_methods(klass, method_name)
       are_via_extractor(:method, klass, method_name)
     end
-    
+
     def is_class(klass)
       methods = defined_methods(klass)
       file_groups = methods.group_by{|sl| sl[0]}
@@ -36,7 +35,7 @@ module Where
       source_locations = file_counts.map{|fc| [fc[:file], fc[:line]]}
       source_locations
     end
-    
+
     # Raises ArgumentError if klass does not have any Ruby methods defined in it.
     def is_class_primarily(klass)
       source_locations = is_class(klass)
@@ -49,25 +48,16 @@ module Where
       end
       source_locations[0]
     end
-    
-    def edit(location)
-      unless location.kind_of?(Array)
-        raise TypeError,
-          "only accepts a [file, line_number] array"
-      end
-      editor[*location]
-      location
-    end
-    
-  private
-  
+
+    private
+
     def source_location(method)
       method.source_location || (
         method.to_s =~ /: (.*)>/
         $1
       )
     end
-    
+
     def are_via_extractor(extractor, klass, method_name)
       methods = klass.ancestors.map do |ancestor|
         method = ancestor.send(extractor, method_name)
@@ -77,10 +67,10 @@ module Where
           nil
         end
       end
-      methods.compact!      
+      methods.compact!
       methods
     end
-    
+
     def defined_methods(klass)
       methods = klass.methods(false).map{|m| klass.method(m)} +
         klass.instance_methods(false).map{|m| klass.instance_method(m)}
@@ -89,19 +79,10 @@ module Where
       methods
     end
   end
-  
-  TextMateEditor = lambda do |file, line|
-    `mate "#{file}" -l #{line}`
-  end
-  
-  NoEditor = lambda do |file, line|
-  end
-  
-  @editor = TextMateEditor
 end
 
 def where_is(klass, method = nil)
-  Where.edit(if method
+  if method
     begin
       Where.is_instance_method(klass, method)
     rescue NameError
@@ -109,5 +90,5 @@ def where_is(klass, method = nil)
     end
   else
     Where.is_class_primarily(klass)
-  end)
+  end
 end
