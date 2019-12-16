@@ -12,6 +12,67 @@ Service: essentially, a container in production performing its job.
 Swarm: a cluster of docker machines running a set of service(s)
 Stack: A group of intrrelated services
 
+## Volumes and data persistence
+
+`--mount KEY=VAL,KEY=VAL,...`:
+
+* `type`: `bind`, `voilume`, `tmpfs`
+* `source`: name of volume
+* `destination`: on container
+* `readonly` (no value necessary; presence is True)
+* `volume-opt`: volume options (e.g. `type=nfs`)
+
+### Docker Volumes (preferred)
+
+```
+docker volume create my-volume
+docker volume ls
+docker volume inspect my-volume
+docker volume rm my-volume
+```
+
+Run an image with a volume:
+
+```
+docker run -d --mount source=myvol2,target=/data my_image
+```
+
+Any existing files at the mount location in the container are copied into the volume.
+
+### Bind mounts (host fs dependent)
+
+Mount host path as path in the container
+
+```
+docker run -d --mount type=bind,source=/local/path,target=/shared my_image
+```
+
+Any existing files at the mount location are obscured by the bind mount.
+
+### tmpfs mounts
+
+Temporary file system (in memory), avoiding any volume or image size usage
+
+```
+docker run -d --mount type=tmpfs,target=/tmp my_image
+```
+
+Options:
+
+* `tmpfs-size` (default: unlimited)
+* `tmpfs-mode	` (default: 1777)
+
+### Etc
+
+Use a bind mount and a volume to easily populate a volume
+
+```
+docker volume create my_volume
+docker run -it --mount source=my_volume,target=/volume --mount type=bind,source=$HOME/tmp/,target=/shared ubuntu:latest bash
+mkdir /volume/video
+mv /shared/media-volume/volume/video.mp4 /volume/video/
+```
+
 ## Code
 
 ### An example workflow
