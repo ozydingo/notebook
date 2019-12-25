@@ -28,11 +28,11 @@ If you prefer, you can install the [AWS SAM CLI](https://docs.aws.amazon.com/ser
 sam package \
     --template-file template.yaml \
     --output-template-file packaged.yaml \
-    --s3-bucket REPLACE_THIS_WITH_YOUR_S3_BUCKET_NAME
+    --s3-bucket 3p-infrastructure
 
 sam deploy \
     --template-file packaged.yaml \
-    --stack-name simple-websocket-chat-app \
+    --stack-name websockets-demo \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides MyParameterSample=MySampleValue
 
@@ -53,7 +53,7 @@ $ npm install -g wscat
 ``` bash
 $ wscat -c wss://{YOUR-API-ID}.execute-api.{YOUR-REGION}.amazonaws.com/{STAGE}
 ```
-4. To test the sendMessage function, send a JSON message like the following example. The Lambda function sends it back using the callback URL: 
+4. To test the sendMessage function, send a JSON message like the following example. The Lambda function sends it back using the callback URL:
 ``` bash
 $ wscat -c wss://{YOUR-API-ID}.execute-api.{YOUR-REGION}.amazonaws.com/prod
 connected (press CTRL+C to quit)
