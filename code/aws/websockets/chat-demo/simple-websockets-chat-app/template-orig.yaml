@@ -6,32 +6,17 @@ Description: >
   SAM Template for simple-websockets-chat-app that has the DynamoDB table and Lambda
   functions needed to demonstrate the Websocket protocol on API Gateway.
 
-# Parameters:
-#   TableName:
-#     Type: String
-#     Default: 'simplechat_connections'
-#     Description: (Required) The name of the new DynamoDB to store connection identifiers for each connected clients. Minimum 3 characters
-#     MinLength: 3
-#     MaxLength: 50
-#     AllowedPattern: ^[A-Za-z_]+$
-#     ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
+Parameters:
+  TableName:
+    Type: String
+    Default: 'simplechat_connections'
+    Description: (Required) The name of the new DynamoDB to store connection identifiers for each connected clients. Minimum 3 characters
+    MinLength: 3
+    MaxLength: 50
+    AllowedPattern: ^[A-Za-z_]+$
+    ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
 
 Resources:
-  ConnectionsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-      - AttributeName: "connectionId"
-        AttributeType: "S"
-      KeySchema:
-      - AttributeName: "connectionId"
-        KeyType: "HASH"
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
-      SSESpecification:
-        SSEEnabled: True
-      # TableName: !Ref TableName
   SimpleChatWebSocket:
     Type: AWS::ApiGatewayV2::Api
     Properties:
@@ -55,7 +40,7 @@ Resources:
       ApiId: !Ref SimpleChatWebSocket
       Description: Connect Integration
       IntegrationType: AWS_PROXY
-      IntegrationUri:
+      IntegrationUri: 
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnConnectFunction.Arn}/invocations
   DisconnectRoute:
@@ -75,7 +60,7 @@ Resources:
       ApiId: !Ref SimpleChatWebSocket
       Description: Disconnect Integration
       IntegrationType: AWS_PROXY
-      IntegrationUri:
+      IntegrationUri: 
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnDisconnectFunction.Arn}/invocations
   SendRoute:
@@ -95,7 +80,7 @@ Resources:
       ApiId: !Ref SimpleChatWebSocket
       Description: Send Integration
       IntegrationType: AWS_PROXY
-      IntegrationUri:
+      IntegrationUri: 
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SendMessageFunction.Arn}/invocations
   Deployment:
@@ -113,6 +98,21 @@ Resources:
       Description: Prod Stage
       DeploymentId: !Ref Deployment
       ApiId: !Ref SimpleChatWebSocket
+  ConnectionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: "connectionId"
+        AttributeType: "S"
+      KeySchema:
+      - AttributeName: "connectionId"
+        KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      SSESpecification:
+        SSEEnabled: True
+      TableName: !Ref TableName
   OnConnectFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -122,12 +122,10 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          # TABLE_NAME: !Ref TableName
-          TABLE_NAME: !Ref ConnectionsTable
+          TABLE_NAME: !Ref TableName
       Policies:
       - DynamoDBCrudPolicy:
-          # TableName: !Ref TableName
-          TableName: !Ref ConnectionsTable
+          TableName: !Ref TableName
   OnConnectPermission:
     Type: AWS::Lambda::Permission
     DependsOn:
@@ -146,12 +144,10 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          # TABLE_NAME: !Ref TableName
-          TABLE_NAME: !Ref ConnectionsTable
+          TABLE_NAME: !Ref TableName
       Policies:
       - DynamoDBCrudPolicy:
-          # TableName: !Ref TableName
-          TableName: !Ref ConnectionsTable
+          TableName: !Ref TableName
   OnDisconnectPermission:
     Type: AWS::Lambda::Permission
     DependsOn:
@@ -170,12 +166,10 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          # TABLE_NAME: !Ref TableName
-          TABLE_NAME: !Ref ConnectionsTable
+          TABLE_NAME: !Ref TableName
       Policies:
       - DynamoDBCrudPolicy:
-          # TableName: !Ref TableName
-          TableName: !Ref ConnectionsTable
+          TableName: !Ref TableName
       - Statement:
         - Effect: Allow
           Action:
