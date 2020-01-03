@@ -6,16 +6,6 @@ Description: >
   SAM Template for simple-websockets-chat-app that has the DynamoDB table and Lambda
   functions needed to demonstrate the Websocket protocol on API Gateway.
 
-# Parameters:
-#   TableName:
-#     Type: String
-#     Default: 'simplechat_connections'
-#     Description: (Required) The name of the new DynamoDB to store connection identifiers for each connected clients. Minimum 3 characters
-#     MinLength: 3
-#     MaxLength: 50
-#     AllowedPattern: ^[A-Za-z_]+$
-#     ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
-
 Resources:
   ConnectionsTable:
     Type: AWS::DynamoDB::Table
@@ -31,7 +21,6 @@ Resources:
         WriteCapacityUnits: 5
       SSESpecification:
         SSEEnabled: True
-      # TableName: !Ref TableName
   SimpleChatWebSocket:
     Type: AWS::ApiGatewayV2::Api
     Properties:
@@ -122,11 +111,9 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          # TABLE_NAME: !Ref TableName
           TABLE_NAME: !Ref ConnectionsTable
       Policies:
       - DynamoDBCrudPolicy:
-          # TableName: !Ref TableName
           TableName: !Ref ConnectionsTable
   OnConnectPermission:
     Type: AWS::Lambda::Permission
@@ -146,11 +133,9 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          # TABLE_NAME: !Ref TableName
           TABLE_NAME: !Ref ConnectionsTable
       Policies:
       - DynamoDBCrudPolicy:
-          # TableName: !Ref TableName
           TableName: !Ref ConnectionsTable
   OnDisconnectPermission:
     Type: AWS::Lambda::Permission
@@ -170,11 +155,9 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          # TABLE_NAME: !Ref TableName
           TABLE_NAME: !Ref ConnectionsTable
       Policies:
       - DynamoDBCrudPolicy:
-          # TableName: !Ref TableName
           TableName: !Ref ConnectionsTable
       - Statement:
         - Effect: Allow
@@ -183,6 +166,41 @@ Resources:
           Resource:
           - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${SimpleChatWebSocket}/*'
   SendMessagePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - SimpleChatWebSocket
+      - SendMessageFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref SendMessageFunction
+      Principal: apigateway.amazonaws.com
+  SendJobUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: send_job_update/
+      Handler: app.handler
+      MemorySize: 256
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ConnectionsTable
+          WS_URI: !Join [ '', [ !Ref SimpleChatWebSocket, '.execute-api.',!Ref 'AWS::Region','.amazonaws.com/',!Ref 'Stage'] ]
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/jobs'
+            Method: post
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref ConnectionsTable
+      - Statement:
+        - Effect: Allow
+          Action:
+          - 'execute-api:ManageConnections'
+          Resource:
+          - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${SimpleChatWebSocket}/*'
+  SendJobUpdatePermission:
     Type: AWS::Lambda::Permission
     DependsOn:
       - SimpleChatWebSocket

@@ -1,0 +1,11 @@
+{
+  "name": "send-job-update",
+  "version": "1.0.0",
+  "description": "Send job updates to connected clients",
+  "main": "src/app.js",
+  "author": "Andrew Schwartz",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.434.0"
+  }
+}

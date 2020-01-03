@@ -28,6 +28,14 @@ For a more meaningful message demo, use
 
 Close the browser connection using `socket.close()`.
 
+## Tiggering a remote update
+
+The lambda function send_job_update is an http-triggered function that allows you to send job update data to the websocket-connected users.
+
+simple ex:
+
+`curl -X POST https://aqf65bddoh.execute-api.us-east-1.amazonaws.com/Prod/jobs -d user_id=2 -d data="{\"job_id\":123456,\"name\":\"It's a Hat\",\"job_type\":\"Editing\",\"state\":\"locked\",\"rate\":\"1.30\"}"`
+
 ## Development
 
 This is the code and template for the simple-websocket-chat-app.  There are three functions contained within the directories and a SAM template that wires them up to a DynamoDB table and provides the minimal set of permissions needed to run the app:
@@ -61,13 +69,14 @@ sam package \
     --s3-bucket 3p-infrastructure
 
 sam deploy \
+    --profile asr \
     --template-file packaged.yaml \
     --stack-name websockets-demo \
     --capabilities CAPABILITY_IAM \
-    --parameter-overrides MyParameterSample=MySampleValue
 
 aws cloudformation describe-stacks \
-    --stack-name simple-websocket-chat-app --query 'Stacks[].Outputs'
+    --profile asr \
+    --stack-name websockets-demo --query 'Stacks[].Outputs'
 ```
 
 ### Testing the chat API
