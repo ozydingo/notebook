@@ -14,7 +14,7 @@ exports.handler = async (event, context) => {
   });
 
   const body = JSON.parse(event.body);
-  if (!body.userId) {
+  if (!body.user_id) {
     return { statusCode: 401, body: "Parameter user_id required" };
   }
   const userId = String(body.user_id);
