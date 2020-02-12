@@ -49,6 +49,48 @@ Sting join:
 * Python: `'-'.join(['foo', 'bar'])`
 * Perl: `join('-', ['foo', 'bar'])`
 
+Immport:
+
+* Python: `from module import thing`
+* Javascript: `import thing from module`
+
+Argv:
+
+Ruby's argv includes only actual args. Python's include the script name. Node's includes the node command and the script name.
+
+```
+$ ruby print_argv.rb one two
+one
+two
+$ python print_argv.py one two
+['print_argv.py', 'one', 'two']
+$ node print_argv.js one two
+[
+  '/usr/local/Cellar/node/12.6.0/bin/node',
+  '/Users/andrewschwartz/code/dev-notebook/code/argv/print_argv.js',
+  'one',
+  'two'
+]
+```
+
+So the first script argument:
+
+* Ruby: `ARGV[0]`
+* Python: `sys.argv[1]`
+* Node: `process.argv[2]`
+
+Run inline, Ruby's ARGV *still* only include actual args. Python's include the flag needed to run inline. Node's still includes the node command but *not* the flag for inline execution.
+
+```
+$ ruby -e 'puts ARGV' one two
+one
+two
+$ python -c 'import sys; print(sys.argv)' one two
+['-c', 'one', 'two']
+$ node -e 'console.log(process.argv)' one two
+[ '/usr/local/Cellar/node/12.6.0/bin/node', 'one', 'two' ]
+```
+
 ## OpenCV
 
 ```python
