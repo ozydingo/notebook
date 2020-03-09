@@ -91,6 +91,12 @@ $ node -e 'console.log(process.argv)' one two
 [ '/usr/local/Cellar/node/12.6.0/bin/node', 'one', 'two' ]
 ```
 
+So the first arg in an inline script:
+
+* Ruby: `ruby -e 'puts ARGV[0]' one two`
+* Python: `python -c 'import sys; print(sys.argv[1])' one two`
+* Node: `node -e 'console.log(process.argv[1])' one two`
+
 ## OpenCV
 
 ```python
