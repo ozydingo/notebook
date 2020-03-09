@@ -1,4 +1,17 @@
-## Basic operationL PyTorch
+## Authentication
+
+Use AWS profiles to authenticate local sessions with AWS resources:
+
+```py
+import boto3
+import sagemaker
+
+boto_session = boto3.session.Session(profile_name="research")
+sagemaker_session = sagemaker.Session(boto_session)
+bucket = sagemaker_session.default_bucket()
+```
+
+## Basic operation: PyTorch
 
 Create a PyTorch estimator and call `fit`:
 
@@ -40,4 +53,3 @@ if __name__ == "__main__":
 ```
 
 Save your model to the path specified by the env variable `SM_MODEL_DIR`, and save output data to that in `SM_OUTPUT_DATA_DIR`. These paths will get uploaded to an S3 bucket specific to the sagemaker role.
- 
