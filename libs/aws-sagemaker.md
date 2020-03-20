@@ -25,7 +25,7 @@ pytorch_estimator = PyTorch(
   entry_point='pytorch-train.py',
   source_dir='/path/to/src'
   role = role
-  train_instance_type='ml.p3.2xlarge',
+  train_instance_type='ml.p3.2xlarge',   # use 'local' to run locally
   train_instance_count=1,
   framework_version='1.0.0',
   hyperparameters = {'epochs': 20, 'batch-size': 64, 'learning-rate': 0.1})
@@ -53,3 +53,23 @@ if __name__ == "__main__":
 ```
 
 Save your model to the path specified by the env variable `SM_MODEL_DIR`, and save output data to that in `SM_OUTPUT_DATA_DIR`. These paths will get uploaded to an S3 bucket specific to the sagemaker role.
+
+```py
+import os
+import sys
+
+import MyModel
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data-dir', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
+    parser.add_argument('--output-data-dir', type=str, default=os.environ['SM_OUTPUT_DATA_DIR'])
+    parser.add_argument('--model-dir', type=str, default=os.environ['SM_MODEL_DIR'])
+    parser.add_argument('--epochs', type=int, default=10)
+    args = parser.parse_args()
+
+    model = MyModel.train(data_dir=args.data_dir, epochs=args.epochs)
+    model.save(args.model_dir)
+```
