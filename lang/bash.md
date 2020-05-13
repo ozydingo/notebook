@@ -44,6 +44,12 @@ Input redirection
 while read line; do echo $line; done < $file
 ```
 
+Input loop piping
+
+```
+ls | while read line; do echo $line; done
+```
+
 ## Pattern Matching
 
 ```
