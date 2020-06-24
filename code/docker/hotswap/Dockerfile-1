@@ -1,0 +1,8 @@
+FROM ubuntu:latest
+
+WORKDIR /app
+
+RUN echo 1 > value.txt
+RUN echo 'for ii in {1..30}; do echo Round $ii; cat value.txt; sleep 1; done' > script.sh
+
+ENTRYPOINT ["bash", "script.sh"]
