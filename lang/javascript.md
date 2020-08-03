@@ -361,3 +361,111 @@ tag`hello${1} and goodbye ${2}`
 Default tagging function is concatenation, hence the main usages as string interpolation.
 
 A tagging function is a regular function an need not return a string.
+
+## This
+
+0. The "default binding", or default `this` value is the `window` (browser) or `global` (node) object.
+
+1. Inside a function, `this` is the calling context. For a bare function, that's the window or global object, for a constructor, that's the object being constructed.
+
+```js
+const F = function() { return this; };
+F()
+// Object [global] {...}
+new F()
+// F {}
+```
+
+2. Binding with `bind`, `call`, `apply` sets the value of `this`
+
+```js
+F.call(17)
+// [Number: 17]
+F.apply(17)
+// [Number: 17]
+F.bind(17)()
+// [Number: 17]
+```
+
+3. Implicit binding: determine calling context. Similar to `self`.
+
+```js
+let obj = {
+  name: "me",
+  f() { return this; }
+}
+obj.f()
+// { name: 'me', f: [Function: f] }
+let g = obj.f
+g()
+// Object [global] {...}
+```
+
+4. use strict -- no default global / window binding: throws error if no context / binding.
+
+5. Arrow functions: use "lexical scope", aka what every other variable uses. "Where the function was written". Ignores explicit binding.
+
+```js
+let obj = {
+  name: "arrow",
+  f: () => { return this; }
+}
+obj.f()
+// Object [global] {...}
+obj.f.call(1)
+// Object [global] {...}
+
+let withContext = function() {
+  return () => { return this; };
+}
+withContext.call(17)()
+// [Number: 17]
+```
+
+6. Event listeners: `this` is `event.currentTarget`
+
+### Classes are just functions:
+
+```js
+class C {
+  constructor() {
+    this.f = function() { return this; }
+    this.g = () => { return this; }
+  }
+
+  h() { return this; }
+}
+```
+
+* `this` will typically be the object
+
+```js
+(new C()).f()
+// C { f: [Function], g: [Function] }
+(new C()).g()
+// C { f: [Function], g: [Function] }
+(new C()).h()
+// C { f: [Function], g: [Function] }
+```
+
+* When functions are reassigned, contexts change. Arrow functions don't care.
+
+```js
+let f = (new C()).f
+let g = (new C()).g
+let h = (new C()).h
+
+f()
+// undefined
+g()
+// C { f: [Function], g: [Function] }
+h()
+// undefined
+
+f.call(17)
+// 17
+g.call(17)
+// C { f: [Function], g: [Function] }
+h.call(17)
+// 17
+```
