@@ -364,41 +364,64 @@ A tagging function is a regular function an need not return a string.
 
 ## This
 
-0. The "default binding", or default `this` value is the `window` (browser) or `global` (node) object.
+Summary of https://www.youtube.com/watch?v=eWDXgsIgTGk
+
+0. The "default binding", or the default `this` value, is the `window` (browser) or `global` (node) object.
 
 1. Inside a function, `this` is the calling context. For a bare function, that's the window or global object, for a constructor, that's the object being constructed.
 
 ```js
-const F = function() { return this; };
+function() F { return this; };
 F()
-// Object [global] {...}
+// => Object [global] {...}
 new F()
-// F {}
+// =>  F {}
 ```
 
-2. Binding with `bind`, `call`, `apply` sets the value of `this`
+2. Binding with `bind`, `call`, `apply` sets the value of `this` to the argumnet.
 
 ```js
+function() F { return this; };
 F.call(17)
-// [Number: 17]
+// => [Number: 17]
 F.apply(17)
-// [Number: 17]
+// => [Number: 17]
 F.bind(17)()
-// [Number: 17]
+// => [Number: 17]
 ```
 
-3. Implicit binding: determine calling context. Similar to `self`.
+3. Implicit binding: `this` depends on the calling context. When a function is called as a member of an object, that object is the context. However, the same function stored as a different variable has a different context.
 
 ```js
 let obj = {
   name: "me",
   f() { return this; }
 }
-obj.f()
-// { name: 'me', f: [Function: f] }
+obj.f() // context is `obj`
+// => { name: 'me', f: [Function: f] }
 let g = obj.f
-g()
-// Object [global] {...}
+g() // context is global
+// => Object [global] {...}
+let h = {
+  j: obj.f
+}
+h.j() // context is `h` even though `this` was written in `obj`.
+// => { j: [Function: f] }
+```
+
+This can be confusing in callback / promise land, but it boils down to the same rules as above.
+```js
+let k = {
+  showThis() { console.log(this); },
+  deferThis() {
+    const p = new Promise((r, j) => r());
+    p.then(this.showThis)
+  },
+}
+k.showThis() // context is k
+// (output) => { showThis: [Function: showThis], deferThis: [Function: deferThis] }
+k.deferThis() // context of `this` inside the callback is global, as the callback function is passed as an arg to another context.
+// (output) => Object [global] {...}
 ```
 
 4. use strict -- no default global / window binding: throws error if no context / binding.
@@ -418,8 +441,39 @@ obj.f.call(1)
 let withContext = function() {
   return () => { return this; };
 }
-withContext.call(17)()
+withContext.call(17)() // context inside `withContext` is made to be 17
 // [Number: 17]
+```
+
+This is often why arrow functions are preferred for readability of `this` in async js.
+
+```js
+let k = {
+  showThis() { console.log(this); },
+  deferThis() {
+    const p = new Promise((r, j) => r());
+    p.then(this.showThis)
+  },
+  arrowThis() {
+    const p = new Promise((r, j) => r());
+    p.then(() => this.showThis())
+  }
+}
+
+k.showThis() // context is k
+// {
+//   showThis: [Function: showThis],
+//   deferThis: [Function: deferThis],
+//   arrowThis: [Function: arrowThis]
+// }
+k.deferThis() // context of `this` inside the callback is global
+// (output) => Object [global] {...}
+k.arrowThis() // context is k because arrow functions.
+// {
+//   showThis: [Function: showThis],
+//   deferThis: [Function: deferThis],
+//   arrowThis: [Function: arrowThis]
+// }
 ```
 
 6. Event listeners: `this` is `event.currentTarget`
