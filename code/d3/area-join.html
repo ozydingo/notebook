@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+	<style>
+
+	.axis {
+	  font: 10px sans-serif;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+
+	</style>
+</head>
+
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.0.0/d3.min.js"></script>
+
+<script>
+
+const margin = {top: 20, right: 20, bottom: 70, left: 40},
+    width = 600 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+// Parse the date / time
+const	parseDate = d3.timeParse("%Y-%m");
+
+const x = d3.scaleBand().range([0, width]).round(.05);
+const y = d3.scaleLinear().range([height, 0]);
+const area = d3.area()
+	.x(d => x(d.date))
+	.y0(y(0))
+	.y1(d => y(d.value));
+
+const xAxis = d3.axisBottom()
+  .scale(x)
+  .tickFormat(d3.timeFormat("%Y-%m"));
+
+const yAxis = d3.axisLeft()
+  .scale(y)
+  .ticks(10);
+
+const svg = d3.select("body").append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr(
+      "transform",
+      "translate(" + margin.left + "," + margin.top + ")"
+    );
+
+function handleClick(event, datum, data) {
+  console.log("CLICK");
+  newData = data.slice();
+	index = data.findIndex(d => d.date === datum.date)
+  newData.splice(index);
+  svg.selectAll("g").selectAll("rect")
+    .data(newData)
+    .exit().remove();
+}
+
+function mouse(event, d) {
+	console.log({
+		event,
+		d,
+		this: this,
+		target: event.currentTarget,
+	});
+	console.log({
+		mouseX: d3.pointer(event)[0],
+		mouseY: d3.pointer(event)[1],
+		dataY: y.invert(d3.pointer(event)[1]),
+	})
+}
+
+function setup() {
+  svg.append("g")
+      .attr("data-id", "x-axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("data-id", "y-axis")
+      .call(yAxis);
+
+  svg.append("g")
+      .attr("data-id", "bars")
+}
+
+function handleData(data) {
+  x.domain(data.map(d => d.date));
+  y.domain([0, d3.max(data, d => d.value)]);
+
+  svg.select("g[data-id='x-axis']")
+    .call(xAxis)
+    .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-90)" );
+
+  svg.select("g[data-id='y-axis']")
+    .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Value ($)");
+
+	const bars = svg
+		.selectAll("g[data-id='bars']")
+		.selectAll("path")
+	  .data([data])
+	bars.join("path")
+    .style("fill", "steelblue")
+		.attr("d", area)
+    // .on("click", (event, datum) => handleClick(event, datum, data))
+    .on("mousemove", mouse);
+}
+
+setup();
+
+d3.csv("bar-data.csv").then(data => {
+  data.forEach(d => {
+      d.date = parseDate(d.date);
+      d.value = +d.value;
+  });
+  handleData(data);
+})
+
+</script>
+
+</body>
