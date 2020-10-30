@@ -98,7 +98,7 @@ d3.csv("bar-data.csv", function(error, data) {
     .enter().append("rect")
       .style("fill", "steelblue")
       .attr("x", function(d) { return x(d.date); })
-      .attr("width", x.bandwidth())
+      .attr("width", 0.8 * x.bandwidth())
       .attr("y", function(d) { return y(d.value); })
       .attr("height", function(d) { return height - y(d.value); })
       .on("click", (d, ii) => handleClick(data, ii));
