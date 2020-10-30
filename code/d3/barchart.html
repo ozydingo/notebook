@@ -55,12 +55,11 @@ y.domain([0, d3.max(([]), function(d) { return d.value; })]);
 
 function handleClick(data, ii) {
   console.log("CLICK");
-  // newData = data.slice();
-  // newData.splice(ii);
-  // debugger
-  // svg.selectAll("bar")
-  //   .data(data)
-  //   .exit().remove();
+  newData = data.slice();
+  newData.splice(ii);
+  svg.selectAll("g").selectAll("rect")
+    .data(newData)
+    .exit().remove();
 }
 
 d3.csv("bar-data.csv", function(error, data) {
@@ -93,7 +92,7 @@ d3.csv("bar-data.csv", function(error, data) {
       .style("text-anchor", "end")
       .text("Value ($)");
 
-  svg.selectAll("bar")
+  svg.append("g").selectAll(null)
       .data(data)
     .enter().append("rect")
       .style("fill", "steelblue")
