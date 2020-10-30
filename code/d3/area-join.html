@@ -82,6 +82,10 @@ function mouse(event, d) {
 	highlight(d, xValue);
 }
 
+function mouseOut(event, d) {
+	highlight(d, 0);
+}
+
 function highlight(data, x) {
 	const ii = d3.bisect(data.map(d => d.date), x);
 	const highlightData = data.slice(0,ii);
@@ -94,7 +98,6 @@ function highlight(data, x) {
 	bars.join("path")
 		.style("fill", "#00000088")
 		.attr("d", area)
-		.on("mousemove", mouse)
 }
 
 function setup() {
@@ -112,6 +115,7 @@ function setup() {
 
 	svg.append("g")
       .attr("data-id", "bars-highlight")
+			.attr("pointer-events", "none")
 }
 
 function handleData(data) {
@@ -142,7 +146,8 @@ function handleData(data) {
 	bars.join("path")
     .style("fill", "steelblue")
 		.attr("d", area)
-    .on("mousemove", mouse);
+    .on("mousemove", mouse)
+		.on("mouseout", mouseOut);
 }
 
 setup();
