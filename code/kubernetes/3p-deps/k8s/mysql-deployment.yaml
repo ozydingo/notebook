@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-master
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql-master
+      role: master
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql-master
+        role: master
+        tier: backend
+    spec:
+      containers:
+      - name: master
+        image: mysql
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: DUM8L3DOR3

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-master
+  labels:
+    app: mysql-master
+    tier: backend
+spec:
+  type: NodePort
+  ports:
+  - port: 3306
+    # nodePort: 30060
+  selector:
+    app: mysql-master
+    tier: backend
