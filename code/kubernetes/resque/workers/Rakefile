@@ -1,0 +1,20 @@
+require 'rubygems'
+require 'bundler/setup'
+require 'resque'
+
+# App
+require './busy_bee'
+
+# Resque Tasks
+require 'resque/tasks'
+
+task "resque:setup" do
+  if ENV.key?("redis_host")
+    puts "Setting up redis host: #{ENV["redis_host"]}"
+    Resque.redis=ENV["redis_host"]
+  end
+end
+
+task "enqueue" => "resque:setup" do
+  Resque.enqueue(BusyBee)
+end

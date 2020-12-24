@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybee
+  labels:
+    app: busybee
+spec:
+  selector:
+    matchLabels:
+      app: busybee
+      role: worker
+      tier: backend
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: busybee
+        role: worker
+        tier: backend
+    spec:
+      containers:
+        - name: busybee
+          image: ozydingo/busybee
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          env:
+            - name: redis_host
+              value: redis://redis-master
