@@ -32,3 +32,7 @@ Add in the redis service port
 kubectl port-forward deployments/mysql-master 3306:3306 6379:
 6379
 ```
+
+## Docker-compose
+
+For comparison, we can do the same thing using docker-compose. Hit `docker compose up` in the `3p-deps` folder.
