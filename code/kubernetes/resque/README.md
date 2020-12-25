@@ -59,3 +59,25 @@ Or
 View logs to show evidence of busybee working: `kubectl logs $POD_NAME`
 
 TODO: use init containers to delay worker start until redis is ready
+
+### Docker-compose
+
+Yes, this is about k8s, but let's do docker-compose as well.
+
+`docker-compose up`
+
+Enqueue a job:
+
+* Get into a container: `docker container ls` then `dockeer exec -it $CONTAINER_ID sh`
+* Enqueue a job: `bundle exec rake enqueue`
+
+Or do it locally, since the `docker-compose` file exposes port 6379 already:
+
+* `bundle exec rake enqueue`
+
+Similar to the k8s setup above, you can change the port forwarding in the `docker-compose` file to use a custom local port, e.g.
+
+```yaml
+ports:
+  - "36379:6379"
+```
