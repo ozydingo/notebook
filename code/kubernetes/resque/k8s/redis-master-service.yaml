@@ -7,6 +7,7 @@ metadata:
     role: master
     tier: backend
 spec:
+  type: NodePort # Allow host to enqueue jobs
   ports:
   - name: redis
     port: 6379

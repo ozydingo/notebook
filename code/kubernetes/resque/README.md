@@ -41,10 +41,21 @@ On its own, this image builds but cannot successfully run as there is no redis t
 
 From the root `resque` directory, apply the k8s config: `kubectl apply -f ./k8s`
 
-Get into the container: `kubectl exec -it $POD_NAME -- sh`
+Enqueue a job:
 
-Inside the container, enqueue a job: `bundle exec rake enqueue`
+* Get into the container: `kubectl exec -it $POD_NAME -- sh`.
+* Inside the container, enqueue a job: `bundle exec rake enqueue`
 
-From host, view the logs proving the busybee is at work: `kubectl logs $POD_NAM`
+Or
+
+* Port forward for local redis: `kubectl port-forward redis-master-85547b7b9-49sd8  6379:6379`
+* Enqueue from host: `bundle exec rake enqueue`
+
+Or
+
+* Port forward using a custom port: `kubectl port-forward redis-master-85547b7b9-49sd8  36379:6379`
+* Enqueue from the host: `redis_host="127.0.0.1:36379" bundle exec rake enqueue`
+
+View logs to show evidence of busybee working: `kubectl logs $POD_NAME`
 
 TODO: use init containers to delay worker start until redis is ready
