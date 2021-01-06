@@ -14,6 +14,19 @@
 `minikube` is a local environment for running k8s processes. Specifically, it runs a single-node k8s cluster.
 `kubectl` interfaces with clusters via an API exposed on the master.
 
+## Basic minikube
+
+```sh
+minikube ip
+minikube start
+```
+
+## Basic declarative configuration
+
+Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/
+
+Declare resources in configuration yaml (or json) files. Most resources have a `spec` (desired) and `status` (current; read-only). In the configuration file, specify a `kind`, `metadata`, and `spec` for each resource.
+
 ## Basic kubectl
 
 ```sh
@@ -22,12 +35,7 @@ kubectl get deployments
 kubectl get services
 kubectl get services/$NAME
 kubectl describe ...
-```
-
-## Basic minikube
-
-```sh
-minikube ip
+kubectkl apply ...
 ```
 
 ## Deployments
@@ -77,3 +85,31 @@ kubectl create secret [docker-registry|generic|tls] [--from-literal|--from-file|
 ### ConfigMaps
 
 ### Secrets
+
+Create a secret name my-secret with key-value pairs: {FILE1: FILE1-contents, FILE2: FILE2-contents}
+
+```sh
+kubectl create secret generic --from-file FILE1 --from-file FILE2
+```
+
+Override the keys
+
+```sh
+kubectl create secret generic --from-file key1=FILE1 --from-file key2=FILE2
+```
+
+From literal
+
+```sh
+kubectl create secret generic --from-literal key1=value1 --from-literal key2=value2
+```
+
+From an env file
+
+```sh
+kubectl create secret generic --from-env-file path/to/file.env
+```
+
+## DNS
+
+Service: `service_name.namesapce_name.svc.cluster-domain.example`; e.g. `redis-master.default.svc.cluster.local`
