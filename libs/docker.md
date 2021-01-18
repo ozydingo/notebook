@@ -12,6 +12,32 @@ Service: essentially, a container in production performing its job.
 Swarm: a cluster of docker machines running a set of service(s)
 Stack: A group of intrrelated services
 
+## Build
+
+```
+docker build -t [$repo/]$name:$label [-f path/to/Dockerfile] $build_path
+```
+
+Specify build-time arguments using `ARG name` in the Dockerfile. Default values can be specified using `ARG name=value`. Values can be taken from env (`--build-arg x`) or specified (`--build_arg x=value`).
+
+```
+docker build --build-arg x --build-arg y=value
+```
+
+### Multi-stage build
+
+```
+FROM base1 AS stage1
+... do stuff
+
+FROM base2
+COPY --from=stage1 source_artiface path/to/target
+```
+
+`--from` can refer to stages or external images.
+
+Intermediate stages do not result in named images. But you can build intermediate stages with `--raget=stage_name`
+
 ## Volumes and data persistence
 
 `--mount KEY=VAL,KEY=VAL,...`:
