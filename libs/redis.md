@@ -5,6 +5,13 @@
 * `exists KEY` => 0/1
 * `del KEY [...KEYS]`
 
+## Atomic Power
+
+* `getdel KEY`
+* `getset KEY NEWVALUE`
+* `rpoplpush SOURCE DEST`
+* `lmove SOURCE DEST`
+
 ## Counters
 
 * `incr KEY`
