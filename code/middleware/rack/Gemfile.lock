@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rack (2.2.3)
+    warden (1.2.9)
+      rack (>= 2.0.9)
+
+PLATFORMS
+  x86_64-darwin-18
+
+DEPENDENCIES
+  warden
+
+BUNDLED WITH
+   2.2.3
