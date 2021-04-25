@@ -1,24 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Middleware with a views
 
-Things you may want to cover:
+The middleware at lib/middleware/middle_view is mounted in `config/routes.rb` at `/views`. This results in a call to this middleware when a request is made to `#{ROOT}/views`. This middleware uses its own path to locate the `views` folder, using `Rack::Static` to server files therein.
 
-* Ruby version
+* Start `rails s`
+* Navigate to localhost:3000/views to see this middleware in action.
 
-* System dependencies
+## Middleware with your application model
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The middleware located at `lib/middleware/users.rb` demonstrates using both `Rails.logger` and the app-specific `User` model, which is an `ActiveRecord::Base` model. This "just works" (tm).

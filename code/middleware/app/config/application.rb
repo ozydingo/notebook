@@ -21,6 +21,7 @@ Bundler.require(*Rails.groups)
 
 module App
   class Application < Rails::Application
+    require Rails.root.join("lib/middleware/middle_view/middle_view")
     require Rails.root.join("lib/middleware/rack_header")
     require Rails.root.join("lib/middleware/pong")
     require Rails.root.join("lib/middleware/users")
@@ -44,5 +45,6 @@ module App
     config.middleware.use RackHeader
     config.middleware.use Pong
     config.middleware.use Users
+    # config.middleware.use MiddleView::MiddleView
   end
 end
