@@ -23,6 +23,7 @@ module App
   class Application < Rails::Application
     require Rails.root.join("lib/middleware/rack_header")
     require Rails.root.join("lib/middleware/pong")
+    require Rails.root.join("lib/middleware/users")
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
@@ -42,5 +43,6 @@ module App
 
     config.middleware.use RackHeader
     config.middleware.use Pong
+    config.middleware.use Users
   end
 end
