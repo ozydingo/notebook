@@ -1,0 +1,8 @@
+.linky {
+  border: 2px solid #222;
+  border-radius: 5px;
+}
+
+.linky:hover {
+  box-shadow: 1px 1px 3px #2226;
+}

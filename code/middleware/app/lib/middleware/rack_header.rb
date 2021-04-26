@@ -4,8 +4,9 @@ class RackHeader
   end
 
   def call(env)
+    req = Rack::Request.new(env)
     code, headers, response = @app.call(env)
-    headers["X-Rack"] = "yes"
+    headers["X-Rack"] = "yes" if req.params.key?("rack")
     return code, headers, response
   end
 end

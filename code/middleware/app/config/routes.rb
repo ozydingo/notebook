@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   get "/ping", to: "pings#ping"
   post "/ping", to: "pings#ping"
 
+  mount ABigStick.new, at: "/abigstick", as: "abigstick"
+
   mount MiddleView::MiddleView.new, at: "/view", as: "view"
 end
