@@ -13,7 +13,7 @@ module Rerackt
     end
 
     def asset_path
-      @root ||= Rerackt.root.join("assets")
+      @root ||= Rerackt.root.join("assets/")
     end
   end
 end

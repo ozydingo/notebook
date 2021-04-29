@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   mount ABigStick.new, at: "/abigstick", as: "abigstick"
 
   mount MiddleView::MiddleView.new, at: "/view", as: "view"
+  mount Rerackt::UI.new, at: "/rerackt", as: "rerackt"
 end
