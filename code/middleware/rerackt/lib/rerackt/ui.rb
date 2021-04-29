@@ -9,8 +9,12 @@ module Rerackt
     end
 
     def static_options
-      {urls: [""], root: asset_path, index: 'index.html'}
+      {urls: ["/"], root: asset_path, index: 'index.html'}
     end
+
+    # def static_app
+    #   ActionnDispatch::Static.new(nil, asset_path)
+    # end
 
     def asset_path
       @root ||= Rerackt.root.join("assets")

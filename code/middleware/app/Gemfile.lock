@@ -1,3 +1,8 @@
+PATH
+  remote: /Users/andrewschwartz/code/notebook/code/middleware/rerackt
+  specs:
+    rerackt (0.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -149,6 +154,7 @@ DEPENDENCIES
   listen (~> 3.3)
   puma (~> 5.0)
   rails (~> 6.1.3, >= 6.1.3.1)
+  rerackt!
   sqlite3 (~> 1.4)
   tzinfo-data
 
