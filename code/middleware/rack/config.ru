@@ -25,6 +25,18 @@ special_app = Rack::Builder.new do
   run Proc.new { |env| ['200', {'Content-Type' => 'text/html'}, ['Extra Special']] }
 end
 
+adminable = Rack::Builder.new do
+  map "/admin" do
+    use Rack::Auth::Basic, "Restricted Area" do |username, password|
+      [username, password] == ['admin', 'abc123']
+    end
+    run Proc.new { |env| ['200', {'Content-Type' => 'text/html'}, ['Admin area']] }
+  end
+
+  run Proc.new { |env| ['200', {'Content-Type' => 'text/html'}, ['Not admin area']] }
+end
+
+
 map "/protected" do
   run protected_app
 end
@@ -37,6 +49,10 @@ end
 
 map "/special" do
   run special_app
+end
+
+map "/adminable" do
+  run adminable
 end
 
 map("/logout") { use Logout }
