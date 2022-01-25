@@ -108,21 +108,21 @@ args = parser.parse_args()
 print args.accumulate(args.integers)
 ```
 
-* `action`:
-  * `store` (default)
-  * `store_const`
-  * `store_true`, `store_false`
-  * `append`
-  * `append_const`
-  * `count`
-  * `help`
-  * `version`
-* nargs
-  * [unspecified]: single argument
-  * `'?'`: optional positional argument
-  * `'*'`: list
-  * `'+'`: list with at least one required
-  * `argparse.REMAINDER`: remaining args
+- `action`:
+  - `store` (default)
+  - `store_const`
+  - `store_true`, `store_false`
+  - `append`
+  - `append_const`
+  - `count`
+  - `help`
+  - `version`
+- nargs
+  - [unspecified]: single argument
+  - `'?'`: optional positional argument
+  - `'*'`: list
+  - `'+'`: list with at least one required
+  - `argparse.REMAINDER`: remaining args
 
 ```
 parser.add_argument('one', type=str)
@@ -138,23 +138,23 @@ parser.add_argument('two', type=str, nargs=argparse.REMAINDER)
 
 seem to be equivalent. `'*'` is additionally useful for multiple args to a flag, e.g. `--foo 1 2 3`
 
-* const
-  * Read from code to use internally, not read from cmd line.
-* default
-  * Default value. Use `argparse.SUPPRESS` to omit the key when not provided.
-* type
-  * `int`, `str`, `file`. Use `argparse.FileType('w')` for write file. `file` args are opened automatically.
-  * You can also use a `<function(string)>` to parse the arg.
-* choices
-  * list of valid options
-* required
-  * Use only on flag args, indicated they are required. Use `nargs='?'` for an optional positional arg.
-* help
-  * Help string
-* metavar
-  * Var name in help text
-* dest
-  * Name of field on `args` return value. Default to arg name: name, first long-name, or short letter name.
+- const
+  - Read from code to use internally, not read from cmd line.
+- default
+  - Default value. Use `argparse.SUPPRESS` to omit the key when not provided.
+- type
+  - `int`, `str`, `file`. Use `argparse.FileType('w')` for write file. `file` args are opened automatically.
+  - You can also use a `<function(string)>` to parse the arg.
+- choices
+  - list of valid options
+- required
+  - Use only on flag args, indicated they are required. Use `nargs='?'` for an optional positional arg.
+- help
+  - Help string
+- metavar
+  - Var name in help text
+- dest
+  - Name of field on `args` return value. Default to arg name: name, first long-name, or short letter name.
 
 ## Array manipulation
 
@@ -200,36 +200,36 @@ x.transpose() @ x
 
 ## Exceptions
 
-* AssertionError -- Raised when assert statement fails.
-* AttributeError -- Raised when attribute assignment or reference fails.
-* EOFError -- Raised when the input() functions hits end-of-file condition.
-* FloatingPointError -- Raised when a floating point operation fails.
-* GeneratorExit -- Raise when a generator's close() method is called.
-* ImportError -- Raised when the imported module is not found.
-* IndexError -- Raised when index of a sequence is out of range.
-* KeyError -- Raised when a key is not found in a dictionary.
-* KeyboardInterrupt -- Raised when the user hits interrupt key (Ctrl+c or delete).
-* MemoryError -- Raised when an operation runs out of memory.
-* NameError -- Raised when a variable is not found in local or global scope.
-* NotImplementedError -- Raised by abstract methods.
-* OSError -- Raised when system operation causes system related error.
-* OverflowError -- Raised when result of an arithmetic operation is too large to be represented.
-* ReferenceError -- Raised when a weak reference proxy is used to access a garbage collected referent.
-* RuntimeError -- Raised when an error does not fall under any other category.
-* StopIteration -- Raised by next() function to indicate that there is no further item to be returned by iterator.
-* SyntaxError -- Raised by parser when syntax error is encountered.
-* IndentationError -- Raised when there is incorrect indentation.
-* TabError -- Raised when indentation consists of inconsistent tabs and spaces.
-* SystemError -- Raised when interpreter detects internal error.
-* SystemExit -- Raised by sys.exit() function.
-* TypeError -- Raised when a function or operation is applied to an object of incorrect type.
-* UnboundLocalError -- Raised when a reference is made to a local variable in a function or method, but no value has been bound to that variable.
-* UnicodeError -- Raised when a Unicode-related encoding or decoding error occurs.
-* UnicodeEncodeError -- Raised when a Unicode-related error occurs during encoding.
-* UnicodeDecodeError -- Raised when a Unicode-related error occurs during decoding.
-* UnicodeTranslateError -- Raised when a Unicode-related error occurs during translating.
-* ValueError -- Raised when a function gets argument of correct type but improper value.
-* ZeroDivisionError -- Raised when second operand of division or modulo operation is zero.
+- AssertionError -- Raised when assert statement fails.
+- AttributeError -- Raised when attribute assignment or reference fails.
+- EOFError -- Raised when the input() functions hits end-of-file condition.
+- FloatingPointError -- Raised when a floating point operation fails.
+- GeneratorExit -- Raise when a generator's close() method is called.
+- ImportError -- Raised when the imported module is not found.
+- IndexError -- Raised when index of a sequence is out of range.
+- KeyError -- Raised when a key is not found in a dictionary.
+- KeyboardInterrupt -- Raised when the user hits interrupt key (Ctrl+c or delete).
+- MemoryError -- Raised when an operation runs out of memory.
+- NameError -- Raised when a variable is not found in local or global scope.
+- NotImplementedError -- Raised by abstract methods.
+- OSError -- Raised when system operation causes system related error.
+- OverflowError -- Raised when result of an arithmetic operation is too large to be represented.
+- ReferenceError -- Raised when a weak reference proxy is used to access a garbage collected referent.
+- RuntimeError -- Raised when an error does not fall under any other category.
+- StopIteration -- Raised by next() function to indicate that there is no further item to be returned by iterator.
+- SyntaxError -- Raised by parser when syntax error is encountered.
+- IndentationError -- Raised when there is incorrect indentation.
+- TabError -- Raised when indentation consists of inconsistent tabs and spaces.
+- SystemError -- Raised when interpreter detects internal error.
+- SystemExit -- Raised by sys.exit() function.
+- TypeError -- Raised when a function or operation is applied to an object of incorrect type.
+- UnboundLocalError -- Raised when a reference is made to a local variable in a function or method, but no value has been bound to that variable.
+- UnicodeError -- Raised when a Unicode-related encoding or decoding error occurs.
+- UnicodeEncodeError -- Raised when a Unicode-related error occurs during encoding.
+- UnicodeDecodeError -- Raised when a Unicode-related error occurs during decoding.
+- UnicodeTranslateError -- Raised when a Unicode-related error occurs during translating.
+- ValueError -- Raised when a function gets argument of correct type but improper value.
+- ZeroDivisionError -- Raised when second operand of division or modulo operation is zero.
 
 ## Decoartion
 
@@ -341,8 +341,9 @@ with Context("world") as object:
 ## Iterators
 
 An iterator is an object with the `__init__`, `__iter__`, and `__next__` functions.
-  * `__next__` should return the next value or raise a `StopIteration`.
-  * `__iter__` returns `self`.
+
+- `__next__` should return the next value or raise a `StopIteration`.
+- `__iter__` returns `self`.
 
 `iter(iterable)` will create an iterator from an enumerable object.
 `next(iterator)` call `__next__` on `iterator`.
@@ -455,4 +456,111 @@ class Foo(metaclass=Meta):
 
 Foo.attr
 # => 100
+```
+
+## asyncio
+
+Constructs similar to js `async`/`await`. An `async def` function returns a `coroutine`. This can be made into a `Task` inside an event loop (any other async function). Note that a returned coroutine does _not_ run automatically. A task runs soon after it is created (similar to js `Promise`).
+
+```py
+async def get_number(num):
+  await asyncio.sleep(1)
+  return num
+
+async def main():
+  x = asyncio.create_task(get_number(1))
+  y = asyncio.create_task(get_number(2))
+  z = asyncio.create_task(get_number(3))
+
+  results = await asyncio.gather(z, y, x)
+  return results
+
+asyncio.run(main()) # Takes 1 second total
+# => [3, 2, 1]
+```
+
+### Error handling
+
+`asyncio.run` will propagate any errors. More nuance is availabe in `gather`.
+
+```py
+async def get_number(num, blowup=False):
+  await asyncio.sleep(1)
+  if blowup:
+    raise RuntimeError("BOOM")
+  return num
+
+async def main(return_exeptions=False):
+  x = asyncio.create_task(get_number(1, True))
+  y = asyncio.create_task(get_number(2, False))
+  z = asyncio.create_task(get_number(3, True))
+
+  results = await asyncio.gather(z, y, x, return_exceptions=return_exeptions)
+  return results
+
+# This is the default, and will propagate exceptions. Other tasks are still running.
+asyncio.run(main(False))
+# !!! RuntimeError: BOOM
+
+# Return exceptions instead of propagate
+asyncio.run(main(True))
+# => [RuntimeError('BOOM'), 2, RuntimeError('BOOM')]
+```
+
+### Basic API cheatsheet
+
+- `asyncio.run` -- run the coroutine now, return control when it completes.
+- `asyncio.create_task` -- schedule the coroutine and return a `Task` (this is more similar to a js `Promise`).
+  - This can only be done inside an event loop (i.e. `async` function)
+  - Note: you must `await` any tasks or they will not complete if your function ends earlier than the task.
+- `await` -- inside an event loop, wait for completion of a `coroutine`, `Task`, or `Future`.
+- `asyncio.gather` -- run multiple tasks and return their results
+- `asyncio.sleep` -- sleep and yield control to the event loop
+- `asyncio.sleep(0)` -- explicitly allow the event loop to execute other tasks' code if appropriate. Use this in long-running loops.
+- `asyncio.wait_for(aw, timeout)` -- return an awaitable coroutine, raise `asyncio.TimeoutError` on timeout.
+- `task.cancel` -- cancel a task. If the task is a gather,
+- `(done, pending) = await asyncio.wait(aws, return_when=FIRST_COMPLETED)`
+- `asyncio.as_completed(aws)` -- iterator that yields completed _coroutines_
+
+```py
+async def get_number(wait, num, blowup=False):
+  await asyncio.sleep(wait)
+  if blowup:
+    raise RuntimeError("BOOM")
+  return num
+
+async def main():
+  x = asyncio.create_task(get_number(1, 1))
+  y = asyncio.create_task(get_number(2, 2))
+  z = asyncio.create_task(get_number(3, 3, True))
+
+  for coro in asyncio.as_completed([x, y, z]):
+    result = await(coro)
+    print(f"Done with {coro}: {result}")
+
+asyncio.run(main())
+
+```
+
+### Blocking the event loop
+
+Blocking operations will _not_ allow concurrent coroutines to process. For example, in this example, no `ping`s will be received while `hog` is sleeping using `time.sleep`.
+
+```py
+async def sleep_hog():
+  await asyncio.sleep(1)
+  print("hog start")
+  time.sleep(5)
+  print("hog finish")
+
+async def get_events():
+  for ii in range(20):
+    print(f"ping {ii}")
+    await asyncio.sleep(0.1)
+
+async def main():
+  events = asyncio.create_task(get_events())
+  hog = asyncio.create_task(sleep_hog())
+  await hog
+  await events
 ```
