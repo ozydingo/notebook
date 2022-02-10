@@ -564,3 +564,74 @@ async def main():
   await hog
   await events
 ```
+
+## logging
+
+Quick & dirty: `logging.info` etc. This uses the root logger, aka `logger.getLogger("root")`.
+
+Diving into loggers:
+
+```py
+import logging
+
+root = logging.getLogger()
+# => <RootLogger root (WARNING)>
+root.handlers
+# => []
+root.basicConfig() # this gets called on the first log call
+root.handlers
+# => [<StreamHandler <stderr> (NOTSET)>]
+root.info("foo")
+# => (no response)
+root.setLevel(logging.INFO)
+root.info("foo")
+# => INFO:root:h
+handler = root.handlers[0]
+# =>  <StreamHandler <stderr> (NOTSET)>
+formatter = handler.formatter
+# => <logging.Formatter at 0xabc>
+formatter._fmt
+# => '%(levelname)s:%(name)s:%(message)s'
+```
+
+Loggers inherit settings from upper namespaces:
+
+```py
+import logging
+logging.basicConfig() # convenience to create a default stream logger
+
+appLogger = logging.getLogger("application")
+appLogger.setLevel(logging.INFO)
+subLogger = logging.getLogger("application.submodule")
+
+subLogger.info("foo")
+# => INFO:application.submodule:foo
+```
+
+To set up very manual logging patterns:
+
+```py
+import logging
+# Use stream logging defaults, or pass in args if you want
+logging.basicConfig()
+
+# Define a base logger you can reference in modules to copy format and level
+appLogger = logging.getLogger("application")
+appLogger.propagate = False
+appLogger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+handler.setFormatter(formatter)
+appLogger.addHandler(handler)
+
+# then
+appLogger = logging.getLogger("application")
+subLogger = logging.getLogger("application.submodule")
+
+# To add specific formatting
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+handler.setFormatter(formatter)
+subLogger.addHandler(handler)
+subLogger.propagate = False
+```
