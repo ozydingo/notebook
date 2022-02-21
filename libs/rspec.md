@@ -2,13 +2,14 @@
 
 There is approximately zero consensus in the broader testing community about the actual definitions of these terms. But let's go with https://martinfowler.com/articles/mocksArentStubs.html:
 
-* Dummy objects are passed around but never actually used. Usually they are just used to fill parameter lists.
-* Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example).
-* Stubs provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test.
-* Spies are stubs that also record some information based on how they were called. One form of this might be an email service that records how many messages it was sent.
-* Mocks are what we are talking about here: objects pre-programmed with expectations which form a specification of the calls they are expected to receive.
+- Doubles are any object swapped in for test purposes, include all of the below.
+- Dummy objects are passed around but never actually used. Usually they are just used to fill parameter lists.
+- Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example).
+- Stubs provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test.
+- Spies are stubs that also record some information based on how they were called. One form of this might be an email service that records how many messages it was sent.
+- Mocks are what we are talking about here: objects pre-programmed with expectations which form a specification of the calls they are expected to receive.
 
-With these definitions, everything defined by `rspec-mocks` either by `double` or `spy` are in fact stubs *and* spies but not mocks. They can be made into mocks by using `expect(...).to recieve`. However, `expect(...).to have_received` is preferred as it allows your test to obey "arrange, act, assert" ordering.
+With these definitions, everything defined by `rspec-mocks` either by `double` or `spy` are in fact stubs _and_ spies but not mocks. They can be made into mocks by using `expect(...).to recieve`. However, `expect(...).to have_received` is preferred as it allows your test to obey "arrange, act, assert" ordering.
 
 ## Mocks
 
