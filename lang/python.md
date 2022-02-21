@@ -635,3 +635,36 @@ handler.setFormatter(formatter)
 subLogger.addHandler(handler)
 subLogger.propagate = False
 ```
+
+## mock, unittest.mock
+
+Mock the lookup, not the definition:
+
+To mock a `bar.baz` from package `bar` used in package `foo`, if you import the module:
+
+```py
+"""foo"""
+
+import bar
+
+bar.baz
+```
+
+You need to mock the module: `"bar.baz"`
+
+But if instead you import the member/function
+
+```py
+"""foo"""
+
+from bar import baz
+```
+
+You need to mock the member/function from your package: `"foo.baz"`
+
+In short:
+
+- `import foo; foo.bar` -> lookup is `foo.bar`, mock `foo.bar`
+- `from foo import bar` -> lookup is `my_package.bar`, mock `my_package.bar`
+
+See https://docs.python.org/3/library/unittest.mock.html#where-to-patch.
