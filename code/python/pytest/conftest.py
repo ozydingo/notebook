@@ -1,3 +1,4 @@
+import json
 import pytest
 import requests_mock
 
@@ -11,4 +12,5 @@ def stub_or_disable_requests():
     with requests_mock.Mocker() as mocker:
         mocker.get('//example.com/mock1', text='example.com mock 1')
         mocker.get('/mock2', text='any domain mock 2')
+        mocker.get('/json', text=json.dumps({"ok": True}))
         yield

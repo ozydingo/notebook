@@ -21,3 +21,7 @@ def test_mocked_get():
     assert response1.text == "example.com mock 1"
     assert response2.text == "any domain mock 2"
     assert response4.text == "any domain mock 2"
+
+def test_json():
+    response = requests.get("https://example.com/json")
+    assert response.json()["ok"] == True
