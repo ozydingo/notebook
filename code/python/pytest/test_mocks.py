@@ -1,4 +1,5 @@
 import os
+import re
 
 from my_class import MyClass
 
@@ -23,6 +24,7 @@ def test_foo(mocker):
     my_class.foo("bar")
     MyClass.foo.assert_called_once_with("bar")
     my_class.foo.assert_called_once_with("bar")
+    my_class.foo.assert_called_once_with(re.compile("b[aeiou]"))
 
 def test_return_value(mocker):
     mocker.patch("my_class.MyClass.foo")
