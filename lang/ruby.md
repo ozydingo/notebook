@@ -17,3 +17,11 @@ str.encode("ascii", undef: :replace).bytes
 str.force_encoding("Windows-1252").encode('utf-8')
 # => "theyâ€™re"
 ```
+
+## Method parameters
+
+```rb
+def foo(a, b = 2, c: 1, d:); end
+method(:foo).parameters
+# => [[:req, :a], [:opt, :b], [:keyreq, :d], [:key, :c]]
+```
