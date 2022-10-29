@@ -1,0 +1,5 @@
+ARG base_image=busybox
+
+FROM ${base_image}
+WORKDIR /example
+RUN echo "foo" > foo
