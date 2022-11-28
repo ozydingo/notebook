@@ -1,15 +1,16 @@
 ## Basics
 
-* A *cluster* consists of a master and node processes.
-* A *node* is a VM.
-  * Each node runs *kubelet*, and agent that interfaces nodes and manages containers in the node.
-  * Each node has a container runtime, such as docker.
-* A *pod* is a group of containers on a node.
-  * Pods share resources such as storage and networking.
-  * K8s deploys pods as an atomic unit, not the containers themselves.
-* A *deployment* manages the lifecycle of one or many replica *pod*s
-* A *service* exposes an application running on one or more pods via an IP and port.
-  * The pods that define a service can be distributed across multiple nodes.
+- A _cluster_ consists of a master and node processes.
+- A _node_ is a VM.
+  - Each node runs _kubelet_, and agent that interfaces nodes and manages containers in the node.
+  - Each node has a container runtime, such as docker.
+- A _pod_ is a group of containers (often just 1) on a node.
+  - Pods share resources such as storage and networking.
+  - K8s deploys pods as an atomic unit, not the containers themselves.
+  - A Pod is a unit of scaling; you cannot scale containers inside a pod.
+- A _deployment_ manages the lifecycle of one or many replica *pod*s
+- A _service_ exposes an application running on one or more pods via an IP and port.
+  - The pods that define a service can be distributed across multiple nodes.
 
 `minikube` is a local environment for running k8s processes. Specifically, it runs a single-node k8s cluster.
 `kubectl` interfaces with clusters via an API exposed on the master.
