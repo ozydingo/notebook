@@ -62,6 +62,7 @@ Result:
   x: 1
   y: 2
 - <<: *foo
+  y: 3
 ```
 
 result
@@ -70,7 +71,7 @@ result
 - x: 1
   y: 2
 - x: 1
-  y: 2
+  y: 3
 ```
 
 - &foo
