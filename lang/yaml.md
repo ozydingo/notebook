@@ -156,14 +156,14 @@ Add a character to the whitespace specifier to modify final newline behavior
 
 ### Full combinations
 
-| Symbol | Inside newlines | Final newlines |
-| --- | --- | --- |
-| `>` | Replace with space | clip (keep one) |
-| `>-` | Replace with space | strip |
-| `>+` | Replace with space | all |
-| `\|` | Keep | clip |
-| `\|-` | Keep | strip |
-| `\|+` | Keep | all |
+| Symbol | Inside newlines    | Final newlines  |
+| ------ | ------------------ | --------------- |
+| `>`    | Replace with space | clip (keep one) |
+| `>-`   | Replace with space | strip           |
+| `>+`   | Replace with space | all             |
+| `\|`   | Keep               | clip            |
+| `\|-`  | Keep               | strip           |
+| `\|+`  | Keep               | all             |
 
 ### Examples
 
@@ -180,8 +180,6 @@ example: >
     extra indentation
   on the next line,
   plus another line at the end.
-
-
 ---
 ```
 
@@ -242,7 +240,7 @@ on the next line,\n
 plus another line at the end.
 ```
 
-`|=`
+`|+`
 
 ```
 Several lines of text,\n
