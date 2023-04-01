@@ -6,10 +6,18 @@ Note: use `echo '...' | yq 'explode(.)'` to inspect the result.
 
 For convenience:
 
-```
+```sh
 explode() {
   echo "$1" | yq 'explode(.)'
 }
+```
+
+or
+
+```sh
+cat <<-EOF | yq 'explode(.)'
+...
+EOF
 ```
 
 ### Basic syntax
@@ -86,4 +94,165 @@ foo: &foo
   - 1
   - 2
 bar: *foo
+```
+
+result
+
+```yaml
+foo:
+  - 1
+  - 2
+bar:
+  - 1
+  - 2
+```
+
+Bad:
+
+```yaml
+foo: &foo
+  - 1
+  - 2
+bar:
+  - 0
+  - <<: *foo
+```
+
+Bad result:
+
+```yaml
+foo:
+  - 1
+  - 2
+bar:
+  - 0
+  - 1: 2
+```
+
+## Whitespace
+
+### Multi-line strings
+
+E.g.
+
+```yaml
+key: |
+  some text
+  goes here
+```
+
+#### Inner newlines
+
+- `>`: Replace inner newlines with space
+- `|`: Keep inner newlines
+
+#### Final newlines(s)
+
+Add a character to the whitespace specifier to modify final newline behavior
+
+- `>`, `|` (no suffix, default): Keep one final newline
+- `>-`, `|-`: strip final newline(s)
+- `>+`, `|+`: keep all final newlines
+
+### Full combinations
+
+| Symbol | Inside newlines | Final newlines |
+| --- | --- | --- |
+| `>` | Replace with space | clip (keep one) |
+| `>-` | Replace with space | strip |
+| `>+` | Replace with space | all |
+| `\|` | Keep | clip |
+| `\|-` | Keep | strip |
+| `\|+` | Keep | all |
+
+### Examples
+
+See interactive examples at https://yaml-multiline.info/
+
+```yaml
+---
+example: >
+  Several lines of text,
+  with some "quotes" of various 'types',
+  and also a blank line:
+
+  and some text with
+    extra indentation
+  on the next line,
+  plus another line at the end.
+
+
+---
+```
+
+Results:
+
+`>`
+
+```
+Several lines of text, with some "quotes" of various 'types', and also a blank line:\n
+and some text with\n
+  extra indentation\n
+on the next line, plus another line at the end.\n
+```
+
+`>-`
+
+```
+Several lines of text, with some "quotes" of various 'types', and also a blank line:\n
+and some text with\n
+  extra indentation\n
+on the next line, plus another line at the end.
+```
+
+`>+`
+
+```
+Several lines of text, with some "quotes" of various 'types', and also a blank line:\n
+and some text with\n
+  extra indentation\n
+on the next line, plus another line at the end.\n
+\n
+\n
+```
+
+`|`
+
+```
+Several lines of text,\n
+with some "quotes" of various 'types',\n
+and also a blank line:\n
+\n
+and some text with\n
+  extra indentation\n
+on the next line,\n
+plus another line at the end.\n
+```
+
+`|-`
+
+```
+Several lines of text,\n
+with some "quotes" of various 'types',\n
+and also a blank line:\n
+\n
+and some text with\n
+  extra indentation\n
+on the next line,\n
+plus another line at the end.
+```
+
+`|=`
+
+```
+Several lines of text,\n
+with some "quotes" of various 'types',\n
+and also a blank line:\n
+\n
+and some text with\n
+  extra indentation\n
+on the next line,\n
+plus another line at the end.\n
+\n
+\n
 ```
