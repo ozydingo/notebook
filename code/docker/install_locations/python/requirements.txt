@@ -1,0 +1,16 @@
+boto3>=1.16.50
+certifi
+click>=7.1.2
+datadog
+psutil>=5.8.0
+virtualenv
+numpy==1.17.2
+gensim==3.8.1
+matplotlib>=3.1.1
+scipy==1.4.1
+nltk==3.0.4
+Pillow>=6.2.0
+scikit-learn==0.22.1
+smart-open==1.8.4
+six==1.15.0
+scikit-image==0.17.2
