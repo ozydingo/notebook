@@ -2,6 +2,18 @@
 
 [https://www.destroyallsoftware.com/talks/wat](https://www.destroyallsoftware.com/talks/wat)
 
+## Ruby
+
+```
+args = []; kwargs = {}
+[*args]
+# => []
+[**kwargs]
+# => []
+[*args, **kwargs]
+# => [{}]
+```
+
 ## Python
 
 Ternary operator: instead of `condition ? value1 : value2`, you have `value1 if condition else value2`
